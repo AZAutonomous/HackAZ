@@ -1,8 +1,8 @@
 {
-    "coordinates": [
+    "obstacles": [
         {
-            "x": 5,
-            "y": 6,
+            "lat": 5,
+            "long": 6,
             "radius": 50
         }
     ]
