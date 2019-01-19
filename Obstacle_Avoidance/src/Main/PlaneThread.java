@@ -7,7 +7,7 @@ import java.util.Scanner;
 import Bodies.Plane;
 import Geometry.Coordinate;
 
-public class PlaneThread implements Runnable{
+public class PlaneThread extends Thread{
 	
 	private Plane plane;
 	
@@ -44,21 +44,22 @@ public class PlaneThread implements Runnable{
 			e.printStackTrace();
 		}
 		sc.nextLine();
-		sc.nextLine();
 		
 		String currLine = sc.nextLine();
 		
 		Coordinate newCoordinate = new Coordinate();
 		
-		newCoordinate.setX(Integer.parseInt(
-				sc.nextLine()
-				.replaceAll("\"long\":","")
-				.replaceAll(",","")
-				.replace(" ","")
-				.replaceAll("\t","")));
+		
 		newCoordinate.setY(Integer.parseInt(
 				sc.nextLine()
 				.replaceAll("\"lat\":","")
+				.replaceAll(",","")
+				.replace(" ","")
+				.replaceAll("\t","")));
+		
+		newCoordinate.setX(Integer.parseInt(
+				sc.nextLine()
+				.replaceAll("\"long\":","")
 				.replaceAll(",","")
 				.replace(" ","")
 				.replaceAll("\t","")));

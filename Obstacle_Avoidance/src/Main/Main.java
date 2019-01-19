@@ -20,8 +20,8 @@ public class Main {
 		PlaneThread planeThread = new PlaneThread(plane);
 		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();
-		//obstacleThread.run();
-		planeThread.run();
+		obstacleThread.start();
+		planeThread.start();
 		
 		//test-------------------------------------------------
 		/*
