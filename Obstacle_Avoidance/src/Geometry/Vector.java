@@ -9,6 +9,13 @@ public class Vector {
 		this.calculateMagnitude();
 	}
 	
+	public Vector(Coordinate a, Coordinate b) {
+		this.x = b.getX() - a.getX();
+		this.y = b.getY() - a.getY();
+		this.calculateMagnitude();
+		
+	}
+	
 	public Vector() {
 		this(0,0);
 	}
@@ -73,8 +80,39 @@ public class Vector {
 		return (this.x * that.y)- (this.y * that.x); 
 	}
 	
-	/*public double angleBetween(Vector that) {
+	public double angleBetween(Vector that) {
 		double result, dot, deter;
 		dot = this.dotProduct(that);
-	}*/
+		deter = this.determinant(that);
+		
+		if (dot == 0) {
+			return Math.PI / 2;
+		}
+		
+		result = Math.atan(deter / dot);
+		
+		if (deter != 0) {
+			if (dot > 0) {
+				return Math.abs(result);
+			} else if (deter < 0) {
+				return Math.PI - result;
+			} else if (deter > 0) {
+				return Math.PI + result;
+			}
+		} else if (dot < 0) {
+			return Math.PI;
+		} else if (dot > 0) {
+			return 0.0;
+		}
+		
+		return 0.0;
+	}
+	
+	public double angleBetween(Coordinate vertex, Coordinate a, Coordinate b) {
+		Vector v1 = new Vector(vertex, a);
+		Vector v2 = new Vector(vertex, b);
+		return v1.angleBetween(v2);
+	}
+	
+	
 }
