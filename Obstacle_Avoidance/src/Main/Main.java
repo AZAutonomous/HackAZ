@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Bodies.Obstacle;
+import Bodies.Plane;
 import Geometry.Coordinate;
 import Geometry.Vector;
 
@@ -14,6 +15,7 @@ public class Main {
 		
 		
 		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
+		Plane plane = new Plane();
 		
 		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();

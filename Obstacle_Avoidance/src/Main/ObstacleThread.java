@@ -13,7 +13,7 @@ public class ObstacleThread implements Runnable{
 
 	boolean listIsEmpty;
 	ArrayList<Obstacle> obstacleList;
-	public final int MILISECONDS_DELAY = 1000;
+	public final static int MILISECONDS_DELAY = 1000;
 	
 	public ObstacleThread() {
 		obstacleList = new ArrayList<Obstacle>();
