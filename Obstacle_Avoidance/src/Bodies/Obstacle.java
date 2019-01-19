@@ -4,34 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Geometry.Coordinate;
+import Geometry.Line;
 import Geometry.Vector;
 
 public class Obstacle {
-	private Coordinate coordinate;
-	private Vector direction;
+	private Coordinate position;
+	private Vector velocity;
 	private List<Double> thetas;
 	
-	public Obstacle() {
-		this.coordinate = new Coordinate();
-		this.direction = new Vector();
+	public Obstacle(Coordinate position, Vector velocity) {
+		this.position = position;
+		this.velocity = velocity;
 		this.thetas = new ArrayList<Double>();
+	}
+	
+	public Obstacle() {
+		this(new Coordinate(), new Vector());
 	}
 	
 	
 	//getters
 	public Coordinate getCoordinate() {
-		return this.coordinate;
+		return this.position;
 	}
 	public Vector getDirection() {
-		return this.direction;
+		return this.velocity;
 	}
 	
 	//setters
 	public void setCoordinate(Coordinate c){
-		this.coordinate = c;
+		this.position = c;
 	}
 	public void setDirection(Vector v) {
-		this.direction = v;
+		this.velocity = v;
 	}
 	
 	public void addTheta(double newTheta) {
@@ -46,7 +51,27 @@ public class Obstacle {
 		return sumThetas / this.thetas.size();
 	}
 	
-	
+	public List<Line> getDangerLines(int length) {
+		ArrayList<Line> dangers = new ArrayList<Line>(3);
+		
+		double angle = this.velocity.getDirection();
+		double left = angle + Math.PI/4;
+		double right = angle - Math.PI/4;
+		
+		double newX = Math.cos(left) * length + this.position.getX();
+		double newY = Math.sin(left) * length + this.position.getY();
+		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+		
+		newX = Math.cos(angle) * length + this.position.getX();
+		newY = Math.sin(angle) * length + this.position.getY();
+		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+		
+		newX = Math.cos(right) * length + this.position.getX();
+		newY = Math.sin(right) * length + this.position.getY();
+		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+		
+		return dangers;
+	}
 	
 	
 }

@@ -8,32 +8,44 @@ import org.junit.Test;
 
 import Bodies.Obstacle;
 import Geometry.Coordinate;
+import Geometry.Line;
 import Geometry.Vector;
 
 public class ObstacleTests {
 	
 	@Test
-	public void dangerLinesTest() {
-		/*Coordinate pos = new Coordinate(0,0);
+	public void dangerLinesTest1() {
+		Coordinate pos = new Coordinate(0,0);
 		Vector vel = new Vector(1,1);
-		Obstacle obs = new Obstacle(pos, vel, 0, 0);
+		Obstacle obs = new Obstacle(pos, vel);
 		
 		assertEquals(vel.getDirection(), Math.PI/4, 0.001);
 		
-		List<Coordinate> list = obs.getDangerLines(5);
+		List<Line> list = obs.getDangerLines(5);
 		
+		assertEquals(list.get(0).getEnd().getX(), 0, 0.001);
+		assertEquals(list.get(0).getEnd().getY(), 5, 0.001);
+		assertEquals(list.get(1).getEnd().getX(), 3.536, 0.001);
+		assertEquals(list.get(1).getEnd().getY(), 3.536, 0.001);
+		assertEquals(list.get(2).getEnd().getX(), 5, 0.001);
+		assertEquals(list.get(2).getEnd().getY(), 0, 0.001);
+	}
+	
+	@Test
+	public void dangerLinesTest2() {
+		Coordinate pos = new Coordinate(1,1);
+		Vector vel = new Vector(-1,0);
+		Obstacle obs = new Obstacle(pos, vel);
 		
+		assertEquals(vel.getDirection(), Math.PI, 0.001);
 		
-		System.out.println(list);
-		System.out.println(list.get(0).getX() + ", " + list.get(0).getY());
-		System.out.println(list.get(1).getX() + ", " + list.get(1).getY());
-		System.out.println(list.get(2).getX() + ", " + list.get(2).getY());
-		assertEquals(list.get(0).getX(), 0, 0.001);
-		assertEquals(list.get(0).getY(), 5, 0.001);
-		assertEquals(list.get(1).getX(), 2.236, 0.001);
-		assertEquals(list.get(1).getY(), 2.236, 0.001);
-		assertEquals(list.get(2).getX(), 5, 0.001);
-		assertEquals(list.get(2).getY(), 0, 0.001);
-		*/
+		List<Line> list = obs.getDangerLines(1);
+		
+		assertEquals(list.get(0).getEnd().getX(), 0.293, 0.001);
+		assertEquals(list.get(0).getEnd().getY(), 0.293, 0.001);
+		assertEquals(list.get(1).getEnd().getX(), 0, 0.001);
+		assertEquals(list.get(1).getEnd().getY(), 1, 0.001);
+		assertEquals(list.get(2).getEnd().getX(), 0.293, 0.001);
+		assertEquals(list.get(2).getEnd().getY(), 1.707, 0.001);
 	}
 }

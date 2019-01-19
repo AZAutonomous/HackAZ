@@ -22,6 +22,14 @@ public class Line {
 		}
 	}
 	
+	public Coordinate getStart() {
+		return this.a;
+	}
+	
+	public Coordinate getEnd() {
+		return this.b;
+	}
+	
 	public static int orientation(Coordinate p, Coordinate q, Coordinate r) {
 		double val = (q.getY() - p.getY()) * (r.getX() - q.getX()) -
 				     (q.getX() - p.getX()) * (r.getY() - q.getY());
