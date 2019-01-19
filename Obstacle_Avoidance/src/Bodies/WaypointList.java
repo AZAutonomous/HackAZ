@@ -60,7 +60,6 @@ public class WaypointList {
 						.replace(" ","")
 						.replaceAll("\t","")));
 				
-				newWaypoint.setVisited(false);
 				newWaypoint.setCoordinate(newCoordinate);
 				list.add(newWaypoint);
 			}

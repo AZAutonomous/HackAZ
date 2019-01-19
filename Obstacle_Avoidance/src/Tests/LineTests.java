@@ -41,5 +41,6 @@ public class LineTests {
 		Line l2 = new Line(c,d);
 		
 		assertTrue(Line.intersect(l1, l2));
+		assertFalse(Line.intersect(a, c, d, b));
 	}
 }
