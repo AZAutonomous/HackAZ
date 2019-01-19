@@ -81,4 +81,25 @@ public class Line {
 		return intersect(a.getStart(), b.getStart(), a.getEnd(), b.getEnd());
 	}
 	
+	public static Coordinate findIntersection(Line a, Line b) {
+		return findIntersection(a.getStart(), b.getStart(), a.getEnd(), b.getEnd());
+	}
+	
+	public static Coordinate findIntersection(Coordinate p0, Coordinate q0, Coordinate p1, Coordinate q1) {
+		Coordinate s1 = new Coordinate(p1.getX() - p0.getX(), p1.getY() - p0.getY());
+		Coordinate s2 = new Coordinate(q1.getX() - q0.getX(), q1.getY() - q0.getY());
+		Coordinate intersection = null;
+		
+		double s, t;
+		s = (-1 * s1.getY() * (p0.getX() - q0.getX()) + s1.getX() * (p0.getY() - q0.getY())) / (-1 * s2.getX() * s1.getY() + s1.getX() * s2.getY());  
+		t = (s2.getX() * (p0.getY() - q0.getY()) - s2.getY() * (p0.getX() - q0.getX())) / (-1 * s2.getX() * s1.getY() + s1.getX() * s2.getY());
+		
+		if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+			intersection = new Coordinate();
+			intersection.setX(p0.getX() + (t * s1.getX()));
+			intersection.setY(p0.getY() + (t * s1.getY()));
+		}
+		
+		return intersection;
+	}
 }

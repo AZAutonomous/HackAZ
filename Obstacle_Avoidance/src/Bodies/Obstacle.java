@@ -58,27 +58,34 @@ public class Obstacle {
 		return sumThetas / this.thetas.size();
 	}
 	
-	public List<Line> getDangerLines(int length) {
+	public List<Line> getDangerLines() {
 		ArrayList<Line> dangers = new ArrayList<Line>(3);
 		
 		double angle = this.velocity.getDirection();
 		double left = angle + Math.PI/4;
 		double right = angle - Math.PI/4;
 		
-		double newX = Math.cos(left) * length + this.position.getX();
-		double newY = Math.sin(left) * length + this.position.getY();
-		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+//		double newX = Math.cos(left) * length;
+//		double newY = Math.sin(left) * length;
+		Vector newV = this.velocity.shiftVectorByTheta(Math.PI/4);
+		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 		
-		newX = Math.cos(angle) * length + this.position.getX();
-		newY = Math.sin(angle) * length + this.position.getY();
-		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+		System.out.println(newV.getX() + ", " + newV.getY());
+//		newX = Math.cos(angle) * length + this.position.getX();
+//		newY = Math.sin(angle) * length + this.position.getY();
+		newV = this.velocity.shiftVectorByTheta(0);
+		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 		
-		newX = Math.cos(right) * length + this.position.getX();
-		newY = Math.sin(right) * length + this.position.getY();
-		dangers.add(new Line(this.position, new Coordinate(newX, newY)));
+		System.out.println(newV.getX() + ", " + newV.getY());
+//		newX = Math.cos(right) * length + this.position.getX();
+//		newY = Math.sin(right) * length + this.position.getY();
+		newV = this.velocity.shiftVectorByTheta(-1 * Math.PI/4);
+		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 		
+		System.out.println(newV.getX() + ", " + newV.getY());
 		return dangers;
 	}
 	
+
 	
 }

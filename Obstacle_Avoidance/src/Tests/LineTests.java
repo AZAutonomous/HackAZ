@@ -43,4 +43,27 @@ public class LineTests {
 		assertTrue(Line.intersect(l1, l2));
 		assertFalse(Line.intersect(a, c, d, b));
 	}
+	
+	@Test
+	public void findIntersectionTests() {
+		Coordinate a = new Coordinate(0,0);
+		Coordinate b = new Coordinate(1,1);
+		Coordinate c = new Coordinate(1,0);
+		Coordinate d = new Coordinate(0,1);
+		
+		Line l1 = new Line(a,b);
+		Line l2 = new Line(c,d);
+		
+		Coordinate intersect = Line.findIntersection(l1, l2);
+		
+		assertTrue(intersect != null);
+		assertEquals(intersect.getX(), 0.5, 0.001);
+		assertEquals(intersect.getY(), 0.5, 0.001);
+		
+		l1 = new Line(a,c);
+		l2 = new Line(b,d);
+		intersect = Line.findIntersection(l1,l2);
+		assertTrue(intersect == null);
+		
+	}
 }
