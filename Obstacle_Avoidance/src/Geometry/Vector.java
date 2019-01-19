@@ -10,7 +10,10 @@ public class Vector {
 	}
 	
 	public Vector(Coordinate a, Coordinate b) {
-		this.x = 
+		this.x = b.getX() - a.getX();
+		this.y = b.getY() - a.getY();
+		this.calculateMagnitude();
+		
 	}
 	
 	public Vector() {
@@ -104,4 +107,12 @@ public class Vector {
 		
 		return 0.0;
 	}
+	
+	public double angleBetween(Coordinate vertex, Coordinate a, Coordinate b) {
+		Vector v1 = new Vector(vertex, a);
+		Vector v2 = new Vector(vertex, b);
+		return v1.angleBetween(v2);
+	}
+	
+	
 }
