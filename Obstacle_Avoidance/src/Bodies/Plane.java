@@ -3,9 +3,18 @@ package Bodies;
 import Geometry.Coordinate;
 import Geometry.Vector;
 
-public class Plane extends Body {
+public class Plane {
 
-	public Plane(Coordinate position, Vector velocity) {
-		super(position, velocity);
+	Coordinate position;
+	double speed;
+	
+	public Plane(Coordinate p, double s) {
+		this.position = p;
+		this.speed = s;
+	}
+	
+	public Plane() {
+		this.position = null;
+		this.speed = 0;
 	}
 }
