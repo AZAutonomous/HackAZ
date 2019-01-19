@@ -7,8 +7,6 @@ import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Obstacle extends Body {
-	private Coordinate position;
-	private Vector velocity;
 	private int radius;
 	public int turnRadius;
 	
@@ -33,6 +31,13 @@ public class Obstacle extends Body {
 		Coordinate left_45 = new Coordinate(this.position.getX() + length * Math.acos(angle - Math.PI/4), this.position.getY() + length * Math.asin(angle - Math.PI/4));
 		Coordinate straight = new Coordinate(this.position.getX() + length * Math.acos(angle), this.position.getY() + length * Math.asin(angle));
 		Coordinate right_45 = new Coordinate(this.position.getX() + length * Math.acos(angle + Math.PI/4), this.position.getY() + length * Math.asin(angle + Math.PI/4));
+		
+		System.out.println(Math.acos(angle - Math.PI/4));
+		System.out.println(Math.acos(Math.PI/2));
+		
+		System.out.println(left_45.getX() + ", " + left_45.getY());
+		System.out.println(straight.getX() + ", " + straight.getY());
+		System.out.println(right_45.getX() + ", " + right_45.getY());
 		
 		list.add(left_45);
 		list.add(straight);

@@ -4,8 +4,8 @@ import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Body {
-	private Coordinate position;
-	private Vector velocity;
+	protected Coordinate position;
+	protected Vector velocity;
 	
 	public Body(Coordinate position, Vector velocity) {
 		this.position = position.copy();
