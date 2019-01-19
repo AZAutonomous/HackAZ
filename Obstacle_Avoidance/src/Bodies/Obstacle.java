@@ -79,6 +79,37 @@ public class Obstacle {
 		
 		return dangers;
 	}
+
+	public static void obstaclesToFile() throws IOException{
+        int x = 1;
+        int lat, lon, radius;
+        FileWriter writer = null;
+        File file = new File("obstacle.txt");
+
+        lat = 1;
+        lon = 1;
+        radius = 1;
+
+        file.createNewFile();
+
+        writer = new FileWriter(file);
+
+        writer.write("{\n\t\"Obstacles\": [\n");
+        for (int i = 0; i < x; i++) {
+            writer.write("\t\t{\n");
+            writer.write(String.format("\t\t\t\"lat\": %d\n", lat));
+            writer.write(String.format("\t\t\t\"lon\": %d\n", lon));
+            writer.write(String.format("\t\t\t\"radius\": %d\n", radius));
+            writer.write("\t\t}");
+
+            if (x > 1 && i < x) {
+                writer.write(",\n");
+            }
+        }
+        writer.write("\n\t]\n}");
+
+        writer.close();
+    }
 	
 	
 }
