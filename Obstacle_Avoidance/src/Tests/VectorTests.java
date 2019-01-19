@@ -65,7 +65,7 @@ public class VectorTests {
 		assertEquals(j.dotProduct(b), 3, 0.001);
 		assertEquals(j.determinant(b), 2, 0.001);
 		assertEquals(j.angleBetween(b), 0.588, 0.001);
-		assertEquals(b.angleBetween(j), 0.588, 0.001);
+		assertEquals(b.angleBetween(j), -0.588, 0.001);
 		
 		Vector k = new Vector(2,-4);
 		assertEquals(k.dotProduct(b), -2, 0.001);
@@ -76,7 +76,7 @@ public class VectorTests {
 		Vector m = new Vector(2,1);
 		assertEquals(l.dotProduct(m), 4, 0.001);
 		assertEquals(l.determinant(m), -3, 0.001);
-		assertEquals(l.angleBetween(m), 0.6435, 0.0001);
+		assertEquals(l.angleBetween(m), -0.6435, 0.0001);
 		
 		Vector n = new Vector(1,0);
 		Vector o = new Vector(0,1);
@@ -85,6 +85,6 @@ public class VectorTests {
 		assertEquals(n.angleBetween(o), Math.PI/2, 0.001);
 		
 		Vector p = new Vector(-1,1);
-		assertEquals(p.angleBetween(o), Math.PI/4, 0.001);
+		assertEquals(p.angleBetween(o), -Math.PI/4, 0.001);
 	}
 }

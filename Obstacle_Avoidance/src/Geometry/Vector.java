@@ -91,7 +91,7 @@ public class Vector {
 		dot = this.dotProduct(that);
 		deter = this.determinant(that);
 		
-		if (dot == 0) {
+		/*if (dot == 0) {
 			return Math.PI / 2;
 		}
 		
@@ -112,6 +112,8 @@ public class Vector {
 		}
 		
 		return 0.0;
+		*/
+		return Math.atan2(deter,  dot);
 	}
 	
 	public double angleBetween(Coordinate vertex, Coordinate a, Coordinate b) {
