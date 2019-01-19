@@ -102,10 +102,10 @@ public class ObstacleThread implements Runnable{
 							- obstacleList.get(listIndex).getCoordinate().getY());
 					//set the new direction
 					newObstacle.setDirection(newVector);
-					
-					newObstacle.addTheta(newObstacle.getDirection()
-							.angleBetween(obstacleList.get(listIndex).getDirection()));
-					
+					//update the change in angle
+					newObstacle.addTheta(obstacleList.get(listIndex).getDirection()
+							.angleBetween(newObstacle.getDirection()));
+					//update with the new obstacle
 					obstacleList.set(listIndex,newObstacle);
 					
 				}
