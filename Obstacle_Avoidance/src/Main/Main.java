@@ -17,9 +17,11 @@ public class Main {
 		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
 		Plane plane = new Plane();
 		
+		PlaneThread planeThread = new PlaneThread(plane);
 		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();
-		obstacleThread.run();
+		//obstacleThread.run();
+		planeThread.run();
 		
 		//test-------------------------------------------------
 		/*
