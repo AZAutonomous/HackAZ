@@ -1,6 +1,8 @@
 {
     "plane": {
         "lat": 0,
-        "long": 0
+        "long": 0,
+        "targetlat": 0,
+        "targetlong": 0
     }
 }
