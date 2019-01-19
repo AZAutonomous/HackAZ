@@ -37,14 +37,5 @@ public class Plane {
 	public void setSpeed(double s) {
 		this.speed = s;
 	}
-	
-	public Waypoint calculateNextAnchor(Waypoint nextDestination, List<Obstacle> obstacles, int length) {
-		List<Coordinate> possibleCollisions = new ArrayList<Coordinate>();
-		Line currentPath = new Line(this.position, nextDestination.getCoordinate());
-		for (Obstacle o : obstacles) {
-			List<Line> dangerLines = o.getDangerLines(length);
-			
-			
-		}
-	}
+
 }
