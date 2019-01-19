@@ -76,5 +76,28 @@ public class Vector {
 	public double angleBetween(Vector that) {
 		double result, dot, deter;
 		dot = this.dotProduct(that);
+		deter = this.determinant(that);
+		
+		if (dot == 0) {
+			return Math.PI / 2;
+		}
+		
+		result = Math.atan(deter / dot);
+		
+		if (deter != 0) {
+			if (dot > 0) {
+				return Math.abs(result);
+			} else if (deter < 0) {
+				return Math.PI - result;
+			} else if (deter > 0) {
+				return Math.PI + result;
+			}
+		} else if (dot < 0) {
+			return Math.PI;
+		} else if (dot > 0) {
+			return 0.0;
+		}
+		
+		return 0.0;
 	}
 }
