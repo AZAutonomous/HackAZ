@@ -1,7 +1,7 @@
 package Geometry;
 
 public class Coordinate {
-	private double x, y, z;
+	private double x, y;
 	
 	public Coordinate(double x, double y) {
 		this.x = x;

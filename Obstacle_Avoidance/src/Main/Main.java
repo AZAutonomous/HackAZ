@@ -7,7 +7,6 @@ import java.io.IOException;
 import Bodies.Obstacle;
 import Geometry.Coordinate;
 import Geometry.Vector;
-import jdk.jfr.events.FileWriteEvent;
 
 public class Main {
 	public static void main(String args[]) {
