@@ -1,4 +1,4 @@
-package Geometry;
+package Bodies;
 
 public class Obstacle {
 
