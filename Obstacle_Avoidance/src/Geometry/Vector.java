@@ -20,6 +20,10 @@ public class Vector {
 		this(0,0);
 	}
 	
+	public Vector copy() {
+		return new Vector(this.x, this.y);
+	}
+	
 	public Vector add(Vector that) {
 		return new Vector(this.x + that.x, this.y + that.y);
 	}
@@ -48,6 +52,10 @@ public class Vector {
 	
 	public double getY() {
 		return this.y;
+	}
+	
+	public double getMagnitude() {
+		return this.magnitude;
 	}
 	
 	public Vector scale(double mult) {

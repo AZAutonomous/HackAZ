@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import Bodies.Map;
 import Bodies.Obstacle;
 import Geometry.Coordinate;
 import Geometry.Vector;
@@ -26,5 +27,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Map map = new Map();
 	}
 }
