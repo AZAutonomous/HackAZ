@@ -1,9 +1,44 @@
 {
     "obstacles": [
         {
-            "lat": 5,
-            "long": 6,
-            "radius": 50
+            "lat": 144,
+            "long": 155,
+            "radius": 51
+        },
+        {
+            "lat": 431,
+            "long": 585,
+            "radius": 40
+        },
+        {
+            "lat": 535,
+            "long": 158,
+            "radius": 35
+        },
+        {
+            "lat": 668,
+            "long": 516,
+            "radius": 35
+        },
+        {
+            "lat": 834,
+            "long": 732,
+            "radius": 32
+        },
+        {
+            "lat": 840,
+            "long": 488,
+            "radius": 42
+        },
+        {
+            "lat": 856,
+            "long": 240,
+            "radius": 28
+        },
+        {
+            "lat": 850,
+            "long": 129,
+            "radius": 46
         }
     ]
 }
