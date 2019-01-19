@@ -11,6 +11,7 @@ public class Obstacle {
 	private Coordinate position;
 	private Vector velocity;
 	private List<Double> thetas;
+	private double radius;
 	
 	public Obstacle(Coordinate position, Vector velocity) {
 		this.position = position;
@@ -30,6 +31,9 @@ public class Obstacle {
 	public Vector getDirection() {
 		return this.velocity;
 	}
+	public double getRadius() {
+		return this.radius;
+	}
 	
 	//setters
 	public void setCoordinate(Coordinate c){
@@ -37,6 +41,9 @@ public class Obstacle {
 	}
 	public void setDirection(Vector v) {
 		this.velocity = v;
+	}
+	public void setRadius(double r) {
+		this.radius = r;
 	}
 	
 	public void addTheta(double newTheta) {
