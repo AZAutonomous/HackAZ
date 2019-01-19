@@ -1,0 +1,28 @@
+[
+	{
+		"coordinate":{
+			"x":5
+			"y":6
+		}
+		"direction":{
+			"x":4
+			"y":1
+			"magnitude": 8
+		}
+		"radius":50
+		"turnRadius":8000
+	}
+	{
+		"coordinate":{
+			"x":5
+			"y":6
+		}
+		"direction":{
+			"x":4
+			"y":1
+			"magnitude": 8
+		}
+		"radius":50
+		"turnRadius":8000
+	}
+]

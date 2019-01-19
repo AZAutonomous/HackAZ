@@ -7,6 +7,7 @@ public class Obstacle {
 	private Coordinate coordinate;
 	private Vector direction;
 	private int radius;
+	public int turnRadius;
 	
 	
 	//getters
