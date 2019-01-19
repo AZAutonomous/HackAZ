@@ -7,12 +7,15 @@ import java.util.ArrayList;
 
 import Bodies.Obstacle;
 import Bodies.Plane;
+import Bodies.WaypointList;
 import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Main {
 	public static void main(String args[]) {
 		
+		WaypointList waypointList = new WaypointList();
+		waypointList.readWaypointsFromJson();
 		
 		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
 		Plane plane = new Plane();
@@ -22,6 +25,8 @@ public class Main {
 		//obstacleThread.updateObstacleList();
 		obstacleThread.start();
 		planeThread.start();
+		
+		
 		
 		//test-------------------------------------------------
 		/*

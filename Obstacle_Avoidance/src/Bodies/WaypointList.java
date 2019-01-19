@@ -35,7 +35,7 @@ public class WaypointList {
 
 	public void writeWaypointsToFile(){
 		FileWriter writer = null;
-		File file = new File("waypoints.json");
+		File file = new File("Waypoints.json");
 
 		try {
 			file.createNewFile();
@@ -79,16 +79,17 @@ public class WaypointList {
 				
 				newCoordinate.setX(Integer.parseInt(
 						sc.nextLine()
-						.replaceAll("\"long\":","")
+						.replaceAll("\"lat\":","")
 						.replaceAll(",","")
 						.replace(" ","")
 						.replaceAll("\t","")));
 				newCoordinate.setX(Integer.parseInt(
 						sc.nextLine()
-						.replaceAll("\"lat\":","")
+						.replaceAll("\"long\":","")
 						.replaceAll(",","")
 						.replace(" ","")
 						.replaceAll("\t","")));
+				
 				
 				newWaypoint.setCoordinate(newCoordinate);
 				list.add(newWaypoint);
