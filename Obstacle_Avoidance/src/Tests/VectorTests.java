@@ -86,5 +86,10 @@ public class VectorTests {
 		
 		Vector p = new Vector(-1,1);
 		assertEquals(p.angleBetween(o), -Math.PI/4, 0.001);
+		
+		Coordinate vert = new Coordinate(0,0);
+		Coordinate v1 = new Coordinate(1,0);
+		Coordinate v2 = new Coordinate(0,1);
+		assertEquals(Vector.angleBetween(vert, v1, v2), Math.PI/2, 0.001);
 	}
 }

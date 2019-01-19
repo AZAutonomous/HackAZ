@@ -91,32 +91,10 @@ public class Vector {
 		dot = this.dotProduct(that);
 		deter = this.determinant(that);
 		
-		/*if (dot == 0) {
-			return Math.PI / 2;
-		}
-		
-		result = Math.atan(deter / dot);
-		
-		if (deter != 0) {
-			if (dot > 0) {
-				return Math.abs(result);
-			} else if (deter < 0) {
-				return Math.PI - result;
-			} else if (deter > 0) {
-				return Math.PI + result;
-			}
-		} else if (dot < 0) {
-			return Math.PI;
-		} else if (dot > 0) {
-			return 0.0;
-		}
-		
-		return 0.0;
-		*/
 		return Math.atan2(deter,  dot);
 	}
 	
-	public double angleBetween(Coordinate vertex, Coordinate a, Coordinate b) {
+	public static double angleBetween(Coordinate vertex, Coordinate a, Coordinate b) {
 		Vector v1 = new Vector(vertex, a);
 		Vector v2 = new Vector(vertex, b);
 		return v1.angleBetween(v2);
