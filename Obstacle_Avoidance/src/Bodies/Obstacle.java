@@ -41,6 +41,7 @@ public class Obstacle {
 	public void setDirection(Vector v) {
 		this.direction = v;
 	}
+	
 	public void setRadius(int r) {
 		this.radius = r;
 	}

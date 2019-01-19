@@ -67,17 +67,15 @@ public class Vector {
 			return Math.atan(this.y / this.x);
 		} else if (this.x < 0) {
 			return Math.atan(this.y / this.x) + Math.PI;
-		} else if (this.x == 0) {
+		} else { // if x == 0
 			if (this.y > 0) {
 				return Math.PI / 2;
 			} else if (this.y < 0) {
 				return -1 * Math.PI / 2;
-			} else if (this.y == 0) {
+			} else { // if y == 0
 				return 0;
 			}
 		}
-		
-		return 0;
 	}
 	
 	public double dotProduct(Vector that) {
