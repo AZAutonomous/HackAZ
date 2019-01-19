@@ -57,14 +57,28 @@ public class Line {
 	}
 	
 	public static boolean intersect(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2) {
+		int o1 = orientation(p1, q1, p2);
+		int o2 = orientation(p1, q1, q2);
+		int o3 = orientation(p2, q2, p1);
+		int o4 = orientation(p2, q2, q1);
 		
-		
-		
-		return false;
+		if (o1 != o2 && o3 != o4) {
+			return true;
+		} else if (o1 == 0 && onSegment(p1, p2, q1)) {
+			return true;
+		} else if (o2 == 0 && onSegment(p1, q2, q1)) {
+			return true;
+		} else if (o3 == 0 && onSegment(p2, p1, q2)) {
+			return true;
+		} else if (o4 == 0 && onSegment(p2, q1, q2)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public static boolean intersect(Line a, Line b) {
-		return intersect(a.getStart(), a.getEnd(), b.getStart(), b.getEnd());
+		return intersect(a.getStart(), b.getStart(), a.getEnd(), b.getEnd());
 	}
 	
 }
