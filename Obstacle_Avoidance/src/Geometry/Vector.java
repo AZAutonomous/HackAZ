@@ -73,8 +73,8 @@ public class Vector {
 		return (this.x * that.y)- (this.y * that.x); 
 	}
 	
-	public double angleBetween(Vector that) {
+	/*public double angleBetween(Vector that) {
 		double result, dot, deter;
 		dot = this.dotProduct(that);
-	}
+	}*/
 }

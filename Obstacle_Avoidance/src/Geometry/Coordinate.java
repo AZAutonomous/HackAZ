@@ -3,18 +3,17 @@ package Geometry;
 public class Coordinate {
 	private double x, y, z;
 	
-	public Coordinate(double x, double y, double z) {
+	public Coordinate(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 	
 	public Coordinate add(Vector that) {
-		return new Coordinate(this.x + that.x, this.y + that.y, this.z + that.z);
+		return new Coordinate(this.x + that.getX(), this.y + that.getY());
 	}
 	
 	public Coordinate subtract(Vector that) {
-		return new Coordinate(this.x - that.x, this.y - that.y, this.z - that.z);
+		return new Coordinate(this.x - that.getX(), this.y - that.getY());
 	}
 	
 	public boolean longitudeSort(Coordinate that) {	
