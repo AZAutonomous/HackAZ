@@ -100,5 +100,15 @@ public class Vector {
 		return v1.angleBetween(v2);
 	}
 	
+	public Vector shiftVectorByTheta(double shiftAngle) {
+		return this.shiftVectorByTheta(shiftAngle, this.magnitude);
+	}
 	
+	public Vector shiftVectorByTheta(double shiftAngle, double length) {
+		double angle = this.getDirection() + shiftAngle;
+		double newX = Math.cos(angle) * length;
+		double newY = Math.sin(angle) * length;
+		
+		return new Vector(newX, newY);
+	}
 }

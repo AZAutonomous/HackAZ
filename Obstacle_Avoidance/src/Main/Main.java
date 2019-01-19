@@ -6,18 +6,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Bodies.Obstacle;
+import Bodies.Plane;
+import Bodies.WaypointList;
 import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Main {
 	public static void main(String args[]) {
 		
+		WaypointList waypointList = new WaypointList();
+		waypointList.readWaypointsFromJson();
 		
 		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
+		Plane plane = new Plane();
 		
-		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
+		PlaneThread planeThread = new PlaneThread(plane,obstacleList,waypointList);
+		//ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();
-		obstacleThread.run();
+		//obstacleThread.start();
+		planeThread.start();
+		
+		
 		
 		//test-------------------------------------------------
 		/*

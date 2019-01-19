@@ -2,10 +2,12 @@ package Geometry;
 
 public class Line {
 	private Coordinate a, b;
+	private double length;
 	
 	public Line(Coordinate a, Coordinate b) {
 		this.a = a;
 		this.b = b;
+		this.calculateLength();
 	}
 	
 	public Line(double x1, double y1, double x2, double y2) {
@@ -13,13 +15,32 @@ public class Line {
 		this.b = new Coordinate(x2, y2);
 	}
 	
-	public static boolean onSegment(Coordinate p, Coordinate q, Coordinate r) {
-		if (q.getX() <= Math.max(p.getX(), q.getX()) && q.getX() >= Math.min(p.getX(), r.getX()) &&
-				q.getY() <= Math.max(p.getY(), q.getY()) && q.getY() >= Math.min(p.getY(), r.getY())) {
+	private void calculateLength() {
+		this.length = Math.sqrt(Math.pow(this.a.getX() - this.b.getX(), 2) + Math.pow(this.a.getY() - this.b.getY(), 2));
+	}
+	
+	public double getLength() {
+		return this.length;
+	}
+	
+	public static double distanceBetween(Coordinate a, Coordinate b) {
+		return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
+	}
+	
+	public static boolean onSegment(Coordinate a, Coordinate b, Coordinate c) { // return true if b is on segment ac
+		if (distanceBetween(a,c) == distanceBetween(a,b) + distanceBetween(b,c)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public Coordinate getStart() {
+		return this.a;
+	}
+	
+	public Coordinate getEnd() {
+		return this.b;
 	}
 	
 	public static int orientation(Coordinate p, Coordinate q, Coordinate r) {
@@ -35,7 +56,7 @@ public class Line {
 		}
 	}
 	
-	public boolean intersect(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2) {
+	public static boolean intersect(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2) {
 		int o1 = orientation(p1, q1, p2);
 		int o2 = orientation(p1, q1, q2);
 		int o3 = orientation(p2, q2, p1);
@@ -43,25 +64,50 @@ public class Line {
 		
 		if (o1 != o2 && o3 != o4) {
 			return true;
-		}
-		
-		if (o1 == 0 && onSegment(p1, p2, q1)) {
+		} else if (o1 == 0 && onSegment(p1, p2, q1)) {
 			return true;
-		}
-		
-		if (o2 == 0 && onSegment(p1, q2, q1)) {
+		} else if (o2 == 0 && onSegment(p1, q2, q1)) {
 			return true;
-		}
-		
-		if (o3 == 0 && onSegment(p2, p1, q2)) {
+		} else if (o3 == 0 && onSegment(p2, p1, q2)) {
 			return true;
-		}
-		
-		if (o4 == 0 && onSegment(p2, q1, q2)) {
+		} else if (o4 == 0 && onSegment(p2, q1, q2)) {
 			return true;
+		} else {
+			return false;
 		}
-		
-		return false;
 	}
 	
+	public static boolean intersect(Line a, Line b) {
+		return intersect(a.getStart(), b.getStart(), a.getEnd(), b.getEnd());
+	}
+	
+	public static Coordinate findIntersection(Line a, Line b) {
+		return findIntersection(a.getStart(), b.getStart(), a.getEnd(), b.getEnd());
+	}
+	
+	public static Coordinate findIntersection(Coordinate p0, Coordinate q0, Coordinate p1, Coordinate q1) {
+		Coordinate s1 = new Coordinate(p1.getX() - p0.getX(), p1.getY() - p0.getY());
+		Coordinate s2 = new Coordinate(q1.getX() - q0.getX(), q1.getY() - q0.getY());
+		Coordinate intersection = null;
+		
+		double s, t;
+		s = (-1 * s1.getY() * (p0.getX() - q0.getX()) + s1.getX() * (p0.getY() - q0.getY())) / (-1 * s2.getX() * s1.getY() + s1.getX() * s2.getY());  
+		t = (s2.getX() * (p0.getY() - q0.getY()) - s2.getY() * (p0.getX() - q0.getX())) / (-1 * s2.getX() * s1.getY() + s1.getX() * s2.getY());
+		
+		if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+			intersection = new Coordinate();
+			intersection.setX(p0.getX() + (t * s1.getX()));
+			intersection.setY(p0.getY() + (t * s1.getY()));
+		}
+		
+		return intersection;
+	}
+	
+	public static Coordinate findMidpoint(Coordinate a, Coordinate b) {
+		Coordinate midpoint = new Coordinate();
+		midpoint.setX((a.getX() + b.getX()) / 2);
+		midpoint.setY((a.getY() + b.getY()) / 2);
+		
+		return midpoint;
+	}
 }

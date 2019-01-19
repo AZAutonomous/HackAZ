@@ -9,11 +9,11 @@ import Geometry.Coordinate;
 import Geometry.Vector;
 
 
-public class ObstacleThread implements Runnable{
+public class ObstacleThread extends Thread{
 
 	boolean listIsEmpty;
 	ArrayList<Obstacle> obstacleList;
-	public final int MILISECONDS_DELAY = 1000;
+	public final static int MILISECONDS_DELAY = 1000;
 	
 	public ObstacleThread() {
 		obstacleList = new ArrayList<Obstacle>();
@@ -30,9 +30,9 @@ public class ObstacleThread implements Runnable{
 		while(true) {
 			updateObstacleList();
 			
-			System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
+			/*System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
 									 + " lon:" + obstacleList.get(0).getCoordinate().getX()
-									 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());
+									 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());*/
 			
 			it++;
 			
