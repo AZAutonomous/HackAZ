@@ -9,7 +9,7 @@ import Geometry.Coordinate;
 import Geometry.Vector;
 
 
-public class ObstacleThread implements Runnable{
+public class ObstacleThread extends Thread{
 
 	boolean listIsEmpty;
 	ArrayList<Obstacle> obstacleList;
