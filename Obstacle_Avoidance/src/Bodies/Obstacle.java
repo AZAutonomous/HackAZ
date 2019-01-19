@@ -1,24 +1,20 @@
 package Bodies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Obstacle {
 	private Coordinate coordinate;
 	private Vector direction;
-	private int radius;
-	public int turnRadius;
-	
-	private double theta1;
-	private double theta2;
-	private double theta3;
-	private int addedThetas;
+	private List<Double> thetas;
 	
 	public Obstacle() {
-		this.theta1 = 0.0;
-		this.theta2 = 0.0;
-		this.theta3 = 0.0;	
-		addedThetas = 0;
+		this.coordinate = new Coordinate();
+		this.direction = new Vector();
+		this.thetas = new ArrayList<Double>();
 	}
 	
 	
@@ -29,10 +25,6 @@ public class Obstacle {
 	public Vector getDirection() {
 		return this.direction;
 	}
-	public int getRadius() {
-		return this.radius;
-	}
-	
 	
 	//setters
 	public void setCoordinate(Coordinate c){
@@ -42,33 +34,16 @@ public class Obstacle {
 		this.direction = v;
 	}
 	
-	public void setRadius(int r) {
-		this.radius = r;
-	}
-	
 	public void addTheta(double newTheta) {
-		this.theta3 = this.theta2;
-		this.theta2 = this.theta1;
-		this.theta1 = newTheta;
-		if(addedThetas < 3) {
-			addedThetas++;
-		}
+		this.thetas.add(newTheta);
 	}
 	
 	public double getAverageTheta() {
-		if(addedThetas == 0) {
-			return 0.0;
+		double sumThetas = 0.0;
+		for (int i = 0; i < this.thetas.size(); i++) {
+			sumThetas += thetas.get(i);
 		}
-		else if(addedThetas == 1) {
-			return this.theta1;
-		}
-		else if(addedThetas == 2) {
-			return ((this.theta1 + this.theta2) / 2.0);
-		}
-		else {
-			return ((this.theta1 + this.theta2 + this.theta3) / 3.0);
-		}
-		
+		return sumThetas / this.thetas.size();
 	}
 	
 	
