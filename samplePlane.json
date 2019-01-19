@@ -1,8 +1,1 @@
-{
-    "plane": {
-        "lat": 0,
-        "long": 0,
-        "targetlat": 0,
-        "targetlong": 0
-    }
-}
+{"plane":{"lat":307,"long":685,"targetlat":327,"targetlong":700,"speed":5}}
