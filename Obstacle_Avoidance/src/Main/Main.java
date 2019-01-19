@@ -3,14 +3,24 @@ package Main;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
-import Bodies.Map;
 import Bodies.Obstacle;
 import Geometry.Coordinate;
 import Geometry.Vector;
 
 public class Main {
 	public static void main(String args[]) {
+		
+		
+		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
+		
+		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
+		//obstacleThread.updateObstacleList();
+		obstacleThread.run();
+		
+		//test-------------------------------------------------
+		/*
 		System.out.println("test");
 		Coordinate c = new Coordinate(1,2);
 		Vector v = new Vector(1,2);
@@ -19,15 +29,17 @@ public class Main {
 		o.setDirection(v);
 		o.setRadius(5);
 		o.turnRadius = 21000;
+		Obstacle o2 = new Obstacle();
+		o.setCoordinate(c);
+		o.setDirection(v);
+		o.setRadius(4);
+		ArrayList<Obstacle> list1 = new ArrayList<Obstacle>();
+		list1.add(o);
+		list1.add(o2);
+		ObstacleThread n = new ObstacleThread();
+		n.obstacleList = list1;
+		//n.delEndOfList();
+		//end of test*/
 		
-		FileWriter file = null;
-		try {
-			file = new FileWriter("test.json");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Map map = new Map();
 	}
 }

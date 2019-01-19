@@ -1,55 +1,76 @@
 package Bodies;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import Geometry.Coordinate;
 import Geometry.Vector;
 
-public class Obstacle extends Body {
+public class Obstacle {
+	private Coordinate coordinate;
+	private Vector direction;
 	private int radius;
 	public int turnRadius;
 	
-	public Obstacle(Coordinate position, Vector velocity, int radius, int turnRadius) {
-		super(position, velocity);
-		this.radius = radius;
-		this.turnRadius = turnRadius;
-		
+	private double theta1;
+	private double theta2;
+	private double theta3;
+	private int addedThetas;
+	
+	public Obstacle() {
+		this.theta1 = 0.0;
+		this.theta2 = 0.0;
+		this.theta3 = 0.0;	
+		addedThetas = 0;
 	}
 	
+	
 	//getters
+	public Coordinate getCoordinate() {
+		return this.coordinate;
+	}
+	public Vector getDirection() {
+		return this.direction;
+	}
 	public int getRadius() {
 		return this.radius;
 	}
-	public List<Coordinate> getDangerLines(int length) { // TODO: make better name for these (STAGE 1)
-		List<Coordinate> list = new ArrayList<Coordinate>(3);
-		System.out.println(this.velocity);
-		if (this.velocity.getMagnitude() == 0) {
-			return null;
-		}
-		double angle = this.velocity.getDirection();
-		Coordinate left_45 = new Coordinate(this.position.getX() + length * Math.acos(angle - Math.PI/4), this.position.getY() + length * Math.asin(angle - Math.PI/4));
-		Coordinate straight = new Coordinate(this.position.getX() + length * Math.acos(angle), this.position.getY() + length * Math.asin(angle));
-		Coordinate right_45 = new Coordinate(this.position.getX() + length * Math.acos(angle + Math.PI/4), this.position.getY() + length * Math.asin(angle + Math.PI/4));
-		
-		System.out.println(Math.acos(angle - Math.PI/4));
-		System.out.println(Math.acos(Math.PI/2));
-		
-		System.out.println(left_45.getX() + ", " + left_45.getY());
-		System.out.println(straight.getX() + ", " + straight.getY());
-		System.out.println(right_45.getX() + ", " + right_45.getY());
-		
-		list.add(left_45);
-		list.add(straight);
-		list.add(right_45);
-		
-		return list;
-	}
+	
 	
 	//setters
+	public void setCoordinate(Coordinate c){
+		this.coordinate = c;
+	}
+	public void setDirection(Vector v) {
+		this.direction = v;
+	}
 	public void setRadius(int r) {
 		this.radius = r;
 	}
+	
+	public void addTheta(double newTheta) {
+		this.theta3 = this.theta2;
+		this.theta2 = this.theta1;
+		this.theta1 = newTheta;
+		if(addedThetas < 3) {
+			addedThetas++;
+		}
+	}
+	
+	public double getAverageTheta() {
+		if(addedThetas == 0) {
+			return 0.0;
+		}
+		else if(addedThetas == 1) {
+			return this.theta1;
+		}
+		else if(addedThetas == 2) {
+			return ((this.theta1 + this.theta2) / 2.0);
+		}
+		else {
+			return ((this.theta1 + this.theta2 + this.theta3) / 3.0);
+		}
+		
+	}
+	
+	
 	
 	
 }

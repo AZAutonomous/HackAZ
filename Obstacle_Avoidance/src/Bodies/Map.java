@@ -9,7 +9,7 @@ public class Map {
 	
 	public Map() {
 		objects = new ArrayList<Body>();
-		objects.add(new Obstacle(new Coordinate(0,0), new Vector(1,0), 1, 1));
+		//objects.add(new Obstacle(new Coordinate(0,0), new Vector(1,0), 1, 1));
 		objects.add(new Plane(new Coordinate(5,5), new Vector(0,-1)));
 	}
 	
