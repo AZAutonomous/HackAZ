@@ -9,6 +9,10 @@ public class Vector {
 		this.calculateMagnitude();
 	}
 	
+	public Vector(Coordinate a, Coordinate b) {
+		this.x = 
+	}
+	
 	public Vector() {
 		this(0,0);
 	}
