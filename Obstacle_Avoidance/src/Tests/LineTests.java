@@ -66,4 +66,24 @@ public class LineTests {
 		assertTrue(intersect == null);
 		
 	}
+	
+	@Test
+	public void testMidpoints() {
+		Coordinate a = new Coordinate(0,0);
+		Coordinate b = new Coordinate(1,1);
+		Coordinate c = Line.findMidpoint(a, b);
+		Coordinate d = Line.findMidpoint(b, a);
+		
+		assertEquals(c.getX(), 0.5, 0.001);
+		assertEquals(c.getY(), 0.5, 0.001);
+		assertEquals(d.getX(), 0.5, 0.001);
+		assertEquals(d.getY(), 0.5, 0.001);
+		
+		Coordinate e = new Coordinate(1,2);
+		Coordinate f = Line.findMidpoint(a, e);
+		
+		assertEquals(f.getX(), 0.5, 0.001);
+		assertEquals(f.getY(), 1.0, 0.001);
+		
+	}
 }

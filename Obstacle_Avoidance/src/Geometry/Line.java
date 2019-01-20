@@ -102,4 +102,12 @@ public class Line {
 		
 		return intersection;
 	}
+	
+	public static Coordinate findMidpoint(Coordinate a, Coordinate b) {
+		Coordinate midpoint = new Coordinate();
+		midpoint.setX((a.getX() + b.getX()) / 2);
+		midpoint.setY((a.getY() + b.getY()) / 2);
+		
+		return midpoint;
+	}
 }
