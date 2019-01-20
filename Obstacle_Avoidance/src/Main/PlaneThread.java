@@ -37,6 +37,7 @@ public class PlaneThread extends Thread{
 			updatePlane();
 			updateObstacleList();
 			
+			//print stuff (for debugging)
 			System.out.println(it + "  plane lat:" + plane.getPosition().getY() 
 								  + "  lon:" + plane.getPosition().getX());
 			System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
@@ -44,7 +45,7 @@ public class PlaneThread extends Thread{
 					 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());
 			it++;
 			
-			
+			//TODO: add method to check for collisions here
 			
 			try {
 				Thread.sleep(ObstacleThread.MILISECONDS_DELAY);
