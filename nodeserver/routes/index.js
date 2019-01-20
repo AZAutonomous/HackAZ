@@ -4,9 +4,9 @@ const fs = require('fs');
 
 const router = express.Router();
 
-let waypointFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/sampleWaypoints.json'), 'utf8').toString();
-let planeFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/samplePlane.json'), 'utf8').toString();
-let obstacleFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/sampleObstacleStart.json'), 'utf8').toString();
+let waypointFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/sampleWaypoints.json'), 'utf8').toString();
+let planeFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/samplePlane.json'), 'utf8').toString();
+let obstacleFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/sampleObstacleStart.json'), 'utf8').toString();
 
 const refreshRate = 250;
 
@@ -14,9 +14,9 @@ initObstacles();
 initPlane();
 
 const timerID = setInterval(() => {
-  waypointFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/sampleWaypoints.json'), 'utf8').toString();
-  obstacleFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/sampleObstacle.json'), 'utf8').toString();
-  planeFile = fs.readFileSync(path.resolve(__dirname, '../../HackAZ/samplePlane.json'), 'utf8').toString();
+  waypointFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/sampleWaypoints.json'), 'utf8').toString();
+  obstacleFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/sampleObstacle.json'), 'utf8').toString();
+  planeFile = fs.readFileSync(path.resolve(__dirname, '../../../HackAZ/samplePlane.json'), 'utf8').toString();
 }, refreshRate);
 
 function initObstacles() {
@@ -35,7 +35,7 @@ function initObstacles() {
       }
     }
 
-    fs.writeFileSync(path.resolve(__dirname, '../../HackAZ/sampleObstacle.json'), JSON.stringify(obstacleJSON), 'utf8');
+    fs.writeFileSync(path.resolve(__dirname, '../../../HackAZ/sampleObstacle.json'), JSON.stringify(obstacleJSON), 'utf8');
   }, refreshRate);
 }
 
@@ -65,7 +65,7 @@ function initPlane() {
       planeJSON.plane.long += Math.floor((planeJSON.plane.targetlong - planeJSON.plane.long) * ratio);
     }
 
-    fs.writeFileSync(path.resolve(__dirname, '../../HackAZ/samplePlane.json'), JSON.stringify(planeJSON), 'utf8');
+    fs.writeFileSync(path.resolve(__dirname, '../../../HackAZ/samplePlane.json'), JSON.stringify(planeJSON), 'utf8');
   }, refreshRate);
 }
 

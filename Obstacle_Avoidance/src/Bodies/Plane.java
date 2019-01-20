@@ -52,6 +52,12 @@ public class Plane {
 		candidateAnchors.add(bisection.add(towardsBisection.shiftVectorByTheta(-Math.PI/2, lengthBisection)));
 		
 		Coordinate bestAnchor = findBestAnchor(candidateAnchors, currentPath.get(0).getCoordinate());
+		Waypoint nextPoint = new Waypoint(bestAnchor);
+		
+		currentPath.add(0, nextPoint);
+		// repeat until distance between 
+		
+		return currentPath;
 	}
 	
 	private Coordinate findBestAnchor(List<Coordinate> candidates, Coordinate nextWaypoint) {
