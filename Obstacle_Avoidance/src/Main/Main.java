@@ -20,10 +20,10 @@ public class Main {
 		ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
 		Plane plane = new Plane();
 		
-		PlaneThread planeThread = new PlaneThread(plane);
-		ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
+		PlaneThread planeThread = new PlaneThread(plane,obstacleList,waypointList);
+		//ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();
-		obstacleThread.start();
+		//obstacleThread.start();
 		planeThread.start();
 		
 		
