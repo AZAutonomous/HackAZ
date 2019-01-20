@@ -11,10 +11,12 @@ public class Plane {
 
 	private Coordinate position;
 	private double speed;
+	private List<Obstacle> obstacles;
 	
 	public Plane(Coordinate p, double s) {
 		this.position = p;
 		this.speed = s;
+		this.obstacles = new ArrayList<Obstacle>();
 	}
 	
 	public Plane() {
@@ -74,15 +76,17 @@ public class Plane {
 		for (int i = 1; i < totalLength / this.speed; i++) {
 			if (i < (totalLength / this.speed) / 2) {
 				currentPosition = currentPosition.add(new Vector(this.position, c).shiftVectorByTheta(0, this.speed));
-				for (Obstacle o : obstacles) { // for each obstacle in the list
-					if (Line.distanceBetween(o.getCoordinate(), currentPosition) < o.getDirection().getMagnitude() * i) {
-						if (Math.abs(o.getDirection().angleBetween(new Vector(o.getCoordinate(), currentPosition))) < Math.PI/4) {
-							risk += (4*Math.pow(o.getRadius(), 2)) / ((2 * i - 1) * Math.pow(o.getDirection().getMagnitude(), 2));
-						}
+			} else {
+				currentPosition = currentPosition.add(new Vector(c, destination).shiftVectorByTheta(0, this.speed));
+			}
+			for (Obstacle o : obstacles) { // for each obstacle in the list
+				if (Line.distanceBetween(o.getCoordinate(), currentPosition) < o.getDirection().getMagnitude() * i) {
+					if (Math.abs(o.getDirection().angleBetween(new Vector(o.getCoordinate(), currentPosition))) < Math.PI/4) {
+						risk += (4*Math.pow(o.getRadius(), 2)) / ((2 * i - 1) * Math.pow(o.getDirection().getMagnitude(), 2));
 					}
 				}
 			}
 		}
-		
+		return risk;
 	}
 }
