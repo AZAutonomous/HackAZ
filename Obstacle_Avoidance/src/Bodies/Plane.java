@@ -74,6 +74,9 @@ public class Plane {
 		return bestAnchor;
 	}
 	
+	//TODO: Test the risk calculations, and whether it is calculating correctly
+	//TODO: Possibly break this up into a sub-method - one for calculating risk, etc.
+	//TODO: Risk calculation is also simplified version of that in paper, stretch goal: get the actual calculation
 	private double calculateRiskAlongPath(Coordinate c, Coordinate destination) {
 		double risk = 0;
 		double totalLength = Line.distanceBetween(this.position, c) + Line.distanceBetween(c, destination);
@@ -95,4 +98,6 @@ public class Plane {
 		}
 		return risk;
 	}
+	
+	//TODO: The path also doesn't take into account turn radius - might need to incorporate that.
 }
