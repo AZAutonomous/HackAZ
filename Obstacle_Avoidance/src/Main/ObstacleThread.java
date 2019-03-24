@@ -30,9 +30,9 @@ public class ObstacleThread extends Thread{
 		while(true) {
 			updateObstacleList();
 			
-			/*System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
+			System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
 									 + " lon:" + obstacleList.get(0).getCoordinate().getX()
-									 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());*/
+									 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());
 			
 			it++;
 			

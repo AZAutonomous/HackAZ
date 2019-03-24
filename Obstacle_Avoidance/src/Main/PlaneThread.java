@@ -45,7 +45,7 @@ public class PlaneThread extends Thread{
 					 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());
 			it++;
 			
-			//TODO: add method to check for collisions here
+			RunAlgorithm();
 			
 			try {
 				Thread.sleep(ObstacleThread.MILISECONDS_DELAY);
@@ -54,6 +54,23 @@ public class PlaneThread extends Thread{
 				e.printStackTrace();
 			}
 		}
+		
+	}
+	
+	private void RunAlgorithm() {
+		//repeat these steps until no collisions
+		
+		//step 1: check for collision
+		
+		//step 2: if collision create anchor points
+		
+		//step 3: generate prediction equations for dynamic obstacles
+		
+		//step 4: generate avoidance path
+		
+		//step 5: evaluate risk of each avoidance paths
+		
+		//step 6: select dodge points
 		
 	}
 	
