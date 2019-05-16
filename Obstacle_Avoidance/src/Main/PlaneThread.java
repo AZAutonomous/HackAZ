@@ -13,6 +13,8 @@ import Geometry.Vector;
 
 public class PlaneThread extends Thread{
 	
+	public final static int MILISECONDS_DELAY = 5000;
+	
 	private Plane plane;
 	private ArrayList<Obstacle> obstacleList;
 	private WaypointList waypointList;
@@ -42,13 +44,14 @@ public class PlaneThread extends Thread{
 								  + "  lon:" + plane.getPosition().getX());
 			System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
 					 + " lon:" + obstacleList.get(0).getCoordinate().getX()
-					 + " vector: " + obstacleList.get(0).getDirection().getMagnitude());
+					 + " vector: " + obstacleList.get(0).getDirection().getX() + "-" + obstacleList.get(0).getDirection().getY()
+					 + " thetas: " + obstacleList.get(0).theatasToString());
 			it++;
 			
 			RunAlgorithm();
 			
 			try {
-				Thread.sleep(ObstacleThread.MILISECONDS_DELAY);
+				Thread.sleep(PlaneThread.MILISECONDS_DELAY);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -163,8 +166,14 @@ public class PlaneThread extends Thread{
 						//set the new direction
 						newObstacle.setDirection(newVector);
 						//update the change in angle
-						newObstacle.addTheta(obstacleList.get(listIndex).getDirection()
-								.angleBetween(newObstacle.getDirection()));
+						if(newObstacle.getCoordinate().getX() == 150) {
+							int a = 0;
+							a = 1;
+						}
+						newObstacle.setThetas(obstacleList.get(listIndex).getThetas());
+						Double newTheta = obstacleList.get(listIndex).getDirection()
+						.angleBetween(newObstacle.getDirection());
+						newObstacle.addTheta(newTheta);
 						//update with the new obstacle
 						obstacleList.set(listIndex,newObstacle);
 						

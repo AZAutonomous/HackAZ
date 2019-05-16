@@ -13,7 +13,7 @@ public class ObstacleThread extends Thread{
 
 	boolean listIsEmpty;
 	ArrayList<Obstacle> obstacleList;
-	public final static int MILISECONDS_DELAY = 1000;
+	
 	
 	public ObstacleThread() {
 		obstacleList = new ArrayList<Obstacle>();
@@ -37,7 +37,7 @@ public class ObstacleThread extends Thread{
 			it++;
 			
 			try {
-				Thread.sleep(MILISECONDS_DELAY);
+				Thread.sleep(PlaneThread.MILISECONDS_DELAY);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

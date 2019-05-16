@@ -21,8 +21,8 @@ public class Main {
 		Plane plane = new Plane();
 		
 		PlaneThread planeThread = new PlaneThread(plane,obstacleList,waypointList);
-		//this is old code we moved the obstacle proc into the plane proc
 		
+		//this is old code we moved the obstacle proc into the plane proc
 		//ObstacleThread obstacleThread = new ObstacleThread(obstacleList);
 		//obstacleThread.updateObstacleList();
 		//obstacleThread.start();

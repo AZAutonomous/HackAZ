@@ -8,8 +8,14 @@ import Geometry.Line;
 import Geometry.Vector;
 
 public class Obstacle {
+	
+	//this represents the maximum number of previous thetas a single obstacle can hold
+	private static int MaxThetaBufferSize = 4;
+	
 	private Coordinate position;
 	private Vector velocity;
+	//a "theta" is the offsetted angle between one obstacles velocity vector angle and the previous vector angle of that same obstacle
+	//the theta in the 0 index represnets the most recent, the 1 possition is the next most recent and so on
 	private List<Double> thetas;
 	private double radius;
 	
@@ -23,7 +29,6 @@ public class Obstacle {
 		this(new Coordinate(), new Vector());
 	}
 	
-	
 	//getters
 	public Coordinate getCoordinate() {
 		return this.position;
@@ -33,6 +38,9 @@ public class Obstacle {
 	}
 	public double getRadius() {
 		return this.radius;
+	}
+	public List<Double> getThetas() {
+		return this.thetas;
 	}
 	
 	//setters
@@ -45,9 +53,27 @@ public class Obstacle {
 	public void setRadius(double r) {
 		this.radius = r;
 	}
+	public void setThetas(List<Double> t) {
+		this.thetas = t;
+	}
 	
 	public void addTheta(double newTheta) {
-		this.thetas.add(newTheta);
+		if(this.thetas.size() >= MaxThetaBufferSize) {
+			List<Double> temp = new ArrayList<Double>();
+			temp.add(newTheta);
+			for(int i = 0; i < MaxThetaBufferSize - 1; i++) {
+				temp.add(thetas.get(i));
+			}
+			this.thetas = temp;
+		}
+		else {
+			List<Double> temp = new ArrayList<Double>();
+			temp.add(newTheta);
+			for(Double t : this.thetas) {
+				temp.add(t);
+			}
+			this.thetas = temp;
+		}
 	}
 	
 	public double getAverageTheta() {
@@ -56,6 +82,14 @@ public class Obstacle {
 			sumThetas += thetas.get(i);
 		}
 		return sumThetas / this.thetas.size();
+	}
+	
+	public String theatasToString() {
+		String retval = "";
+		for(Double t : this.thetas) {
+			retval = retval + " , " + t;
+		}
+		return retval;
 	}
 	
 	public List<Line> getDangerLines() {
