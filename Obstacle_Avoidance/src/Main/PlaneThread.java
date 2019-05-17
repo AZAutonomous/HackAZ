@@ -17,6 +17,10 @@ import Geometry.Vector;
 public class PlaneThread extends Thread{
 	
 	public final static int MILISECONDS_DELAY = 1000;
+	//the amount of objective waypoint to look ahead when calc collisions
+	public final static int LOOKAHEAD_AMOUNT = 2;
+	//the radius for wich a "hit" can be counted in feet
+	public final static double PLANE_HIT_RADIUS = 100;
 	
 	private Plane plane;
 	private ArrayList<Obstacle> obstacleList;
@@ -100,29 +104,43 @@ public class PlaneThread extends Thread{
 		return false;
 	}
 	
+	private List<Coordinate> getXNextObjectiveCoordinates(int x) {
+		List<Coordinate> coors = new ArrayList<Coordinate>();
+		int i = 0;
+		coors.add(plane.getPosition());
+		for(Waypoint w : waypointList.getWaypointList()) {
+			
+			coors.add(w.getCoordinate());
+			
+			if(w.isObjective) {
+				i++;
+			}
+			if(i >= x) {
+				break;
+			}
+		}
+		return coors;
+	}
+	
 	//returns the index of an obstacle that has a collision between current path and next objective waypoint
 	//returns -1 if none are found
+	//returns the first obstacle that collides with the soonest waypoint path segment
 	private int findDangerousObstacle() {
 		int i = 0;
 		for(Obstacle currObstacle : obstacleList) {
-			Coordinate a1 = null;
-			Coordinate a2 = null;
-			//set the two coordinates to the next to waypoints that are objectives 
-			// (were not added by the algorithm / mission objectives / necessary waypoints)
-			for(Waypoint w : waypointList.getWaypointList()) {
-				if(w.isObjective && a1 == null) {
-					a1 = w.getCoordinate();
-				}
-				else if(w.isObjective && a1 != null) {
-					a2 = w.getCoordinate();
-					break;
+			//get list of Coordinats starting at the planes current location
+			List<Coordinate> coors = getXNextObjectiveCoordinates(LOOKAHEAD_AMOUNT);
+			
+			//calc if the current predictive obstacles vector intersects over each line segment
+			for(int j = 0; j < coors.size()-1; j++) {
+				Coordinate a1 = coors.get(j);
+				Coordinate a2 = coors.get(j+1);
+				if(ObstacleCollides(a1,a2, currObstacle)) {
+					//if so return the index of that obstacle
+					return i;
 				}
 			}
-			//calc if the current predictive obstacles vector intersects
-			if(ObstacleCollides(a1,a2, currObstacle)) {
-				//if so return the index of that obstacle
-				return i;
-			}
+			
 			
 			
 			i++;
@@ -149,6 +167,12 @@ public class PlaneThread extends Thread{
 		//step 5: evaluate risk of each avoidance paths
 		
 		//step 6: select dodge points
+		
+	}
+	
+	//removes the soonest waypoint if the planes current position is a "hit"
+	//TODO: implement me
+	public void updateWaypoints() {
 		
 	}
 	
@@ -181,6 +205,7 @@ public class PlaneThread extends Thread{
 				.replace(" ","")
 				.replaceAll("\t","")));
 		plane.setPosition(newCoordinate);
+		
 	}
 	
 	//returns 0 if success
