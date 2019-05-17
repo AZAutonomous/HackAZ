@@ -90,6 +90,8 @@ public class WaypointList {
 						.replace(" ","")
 						.replaceAll("\t","")));
 				
+				newWaypoint.isObjective = true;
+				
 				
 				newWaypoint.setCoordinate(newCoordinate);
 				list.add(newWaypoint);

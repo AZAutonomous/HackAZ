@@ -99,13 +99,14 @@ public class Obstacle {
 	public List<Line> getDangerLines(double length) {
 		ArrayList<Line> dangers = new ArrayList<Line>(3);
 		
-		Vector newV = this.velocity.shiftVectorByTheta(Math.PI/4, length);
+		//here we do a double shift by the average turning theta and then 45 0 and -45 degrees
+		Vector newV = this.velocity.shiftVectorByTheta(this.getAverageTheta()).shiftVectorByTheta(Math.PI/4, length);
 		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 
-		newV = this.velocity.shiftVectorByTheta(0, length);
+		newV = this.velocity.shiftVectorByTheta(this.getAverageTheta()).shiftVectorByTheta(0, length);
 		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 		
-		newV = this.velocity.shiftVectorByTheta(-1 * Math.PI/4, length);
+		newV = this.velocity.shiftVectorByTheta(this.getAverageTheta()).shiftVectorByTheta(-1 * Math.PI/4, length);
 		dangers.add(new Line(this.position, new Coordinate(newV.getX() + this.position.getX(), newV.getY() + this.position.getY())));
 		
 		return dangers;

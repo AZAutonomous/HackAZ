@@ -3,17 +3,20 @@ package Main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import Bodies.Obstacle;
 import Bodies.Plane;
+import Bodies.Waypoint;
 import Bodies.WaypointList;
 import Geometry.Coordinate;
+import Geometry.Line;
 import Geometry.Vector;
 
 public class PlaneThread extends Thread{
 	
-	public final static int MILISECONDS_DELAY = 5000;
+	public final static int MILISECONDS_DELAY = 1000;
 	
 	private Plane plane;
 	private ArrayList<Obstacle> obstacleList;
@@ -60,12 +63,64 @@ public class PlaneThread extends Thread{
 		
 	}
 	
+	private boolean ObstacleCollides(Coordinate a1, Coordinate a2, Obstacle o1) {
+		if(o1.getDirection().getMagnitude() == 0) {
+			return false;
+		}
+		
+		Line w1 = new Line(a1, a2);
+		double dist1 = w1.getLength();
+		//calculates "danger lines" that are extensions of the 
+		List<Line> dangerLines = o1.getDangerLines(dist1*3);
+		for(Line l : dangerLines) {
+			if(Line.intersect(w1, l)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//returns the index of an obstacle that has a collision between current path and next objective waypoint
+	//returns -1 if none are found
+	private int findDangerousObstacle() {
+		int i = 0;
+		for(Obstacle currObstacle : obstacleList) {
+			Coordinate a1 = null;
+			Coordinate a2 = null;
+			//set the two coordinates to the next to waypoints that are objectives 
+			// (were not added by the algorithm / mission objectives / necessary waypoints)
+			for(Waypoint w : waypointList.getWaypointList()) {
+				if(w.isObjective && a1 == null) {
+					a1 = w.getCoordinate();
+				}
+				else if(w.isObjective && a1 != null) {
+					a2 = w.getCoordinate();
+				}
+			}
+			//calc if the current predictive obstacles vector intersects
+			if(ObstacleCollides(a1,a2, currObstacle)) {
+				//if so return the index of that obstacle
+				return i;
+			}
+			
+			
+			i++;
+		}
+		return -1;
+	}
+	
 	private void RunAlgorithm() {
+
 		//repeat these steps until no collisions
 		
 		//step 1: check for collision
+		int collisionsIndex = findDangerousObstacle();
 		
 		//step 2: if collision create anchor points
+		if(collisionsIndex != -1) {
+			System.out.println("collision");
+		}
 		
 		//step 3: generate prediction equations for dynamic obstacles
 		
