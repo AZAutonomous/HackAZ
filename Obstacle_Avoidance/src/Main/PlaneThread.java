@@ -63,14 +63,33 @@ public class PlaneThread extends Thread{
 		
 	}
 	
-	private boolean ObstacleCollides(Coordinate a1, Coordinate a2, Obstacle o1) {
-		if(o1.getDirection().getMagnitude() == 0) {
-			return false;
-		}
+	//returns true if the line l intersects the circle made by o1
+	//returns false otherwise
+	//TODO: test this function
+	private boolean StaticCollides(Line l, Obstacle o1) {
+		// Finding the distance of line from center. 
+		double a = l.getStart().getX() - l.getEnd().getX();
+		double b = l.getStart().getY() - l.getEnd().getY();
+		double x = Math.sqrt(a*a + b*b);
+       
+		return (Math.abs((o1.getCoordinate().getY() - l.getStart().getY()) * (l.getEnd().getX() - l.getStart().getX()) - 
+		           (o1.getCoordinate().getX() -  l.getStart().getX()) * (l.getEnd().getY() - l.getStart().getY())) / x <= o1.getRadius());
 		
+	}
+	
+	private boolean ObstacleCollides(Coordinate a1, Coordinate a2, Obstacle o1) {
 		Line w1 = new Line(a1, a2);
 		double dist1 = w1.getLength();
+		
+		//if obstacle is static check for a regular collision
+		if(o1.getDirection().getMagnitude() == 0) {
+			return StaticCollides(w1,o1);
+		}
+		
 		//calculates "danger lines" that are extensions of the 
+		//we do dist1 times 3 because an obstacle should move no faster than our plane
+		//so we do not worry about any distance covered after we move past these two points
+		//we multiply by 3 as an added buffer just to be safe
 		List<Line> dangerLines = o1.getDangerLines(dist1*3);
 		for(Line l : dangerLines) {
 			if(Line.intersect(w1, l)) {
@@ -96,6 +115,7 @@ public class PlaneThread extends Thread{
 				}
 				else if(w.isObjective && a1 != null) {
 					a2 = w.getCoordinate();
+					break;
 				}
 			}
 			//calc if the current predictive obstacles vector intersects

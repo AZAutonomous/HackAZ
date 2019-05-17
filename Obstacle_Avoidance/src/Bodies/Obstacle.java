@@ -96,6 +96,7 @@ public class Obstacle {
 		return this.getDangerLines(this.velocity.getMagnitude());
 	}
 	
+	
 	public List<Line> getDangerLines(double length) {
 		ArrayList<Line> dangers = new ArrayList<Line>(3);
 		
