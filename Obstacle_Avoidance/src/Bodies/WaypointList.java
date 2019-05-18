@@ -77,7 +77,7 @@ public class WaypointList {
 				Waypoint newWaypoint = new Waypoint();
 				Coordinate newCoordinate = new Coordinate();
 				
-				newCoordinate.setX(Integer.parseInt(
+				newCoordinate.setY(Integer.parseInt(
 						sc.nextLine()
 						.replaceAll("\"lat\":","")
 						.replaceAll(",","")
