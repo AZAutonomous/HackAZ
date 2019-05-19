@@ -1,5 +1,9 @@
 package Geometry;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Coordinate {
 	private double x, y;
 	
@@ -55,4 +59,38 @@ public class Coordinate {
 	public double getY() {
 		return this.y;
 	}
+	
+	
+	public static List<Coordinate> getCircleLineIntersectionPoint(Coordinate pointA,
+			Coordinate pointB, Coordinate center, double radius) {
+        double baX = pointB.x - pointA.x;
+        double baY = pointB.y - pointA.y;
+        double caX = center.x - pointA.x;
+        double caY = center.y - pointA.y;
+
+        double a = baX * baX + baY * baY;
+        double bBy2 = baX * caX + baY * caY;
+        double c = caX * caX + caY * caY - radius * radius;
+
+        double pBy2 = bBy2 / a;
+        double q = c / a;
+
+        double disc = pBy2 * pBy2 - q;
+        if (disc < 0) {
+            return Collections.emptyList();
+        }
+        // if disc == 0 ... dealt with later
+        double tmpSqrt = Math.sqrt(disc);
+        double abScalingFactor1 = -pBy2 + tmpSqrt;
+        double abScalingFactor2 = -pBy2 - tmpSqrt;
+
+        Coordinate p1 = new Coordinate(pointA.x - baX * abScalingFactor1, pointA.y
+                - baY * abScalingFactor1);
+        if (disc == 0) { // abScalingFactor1 == abScalingFactor2
+            return Collections.singletonList(p1);
+        }
+        Coordinate p2 = new Coordinate(pointA.x - baX * abScalingFactor2, pointA.y
+                - baY * abScalingFactor2);
+        return Arrays.asList(p1, p2);
+    }
 }

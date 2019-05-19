@@ -1,11 +1,11 @@
 {
     "waypoints": [
         {
-            "lat": 78,
-            "long": 72
+            "lat": 90,
+            "long": 60
         },
         {
-            "lat": 75,
+            "lat": 50,
             "long": 200
         },
         {

@@ -27,6 +27,16 @@ public class Line {
 		return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
 	}
 	
+	public static double slope(Coordinate a, Coordinate b) {
+		double retval = 0;
+		//then max slope
+		if(a.getY() == b.getY()) {
+			return Double.MAX_VALUE;
+		}
+		retval = (b.getY() - a.getY()) / (b.getX() - a.getX());
+		return retval;
+	}
+	
 	public static boolean onSegment(Coordinate a, Coordinate b, Coordinate c) { // return true if b is on segment ac
 		if (distanceBetween(a,c) == distanceBetween(a,b) + distanceBetween(b,c)) {
 			return true;

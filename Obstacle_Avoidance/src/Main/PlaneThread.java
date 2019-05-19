@@ -26,6 +26,7 @@ public class PlaneThread extends Thread{
 	private ArrayList<Obstacle> obstacleList;
 	private WaypointList waypointList;
 	private boolean listIsEmpty;
+	public boolean dynamic;
 	
 	public PlaneThread(Plane p) {
 		this.plane = p;
@@ -37,6 +38,25 @@ public class PlaneThread extends Thread{
 		this.obstacleList = ol;
 		this.waypointList = w;
 		this.listIsEmpty = true;
+	}
+	
+	public void runOnce() {
+		int it = 0;
+		
+		updatePlane();
+		updateObstacleList();
+			
+		//print stuff (for debugging)
+		System.out.println(it + "  plane lat:" + plane.getPosition().getY() 
+							  + "  lon:" + plane.getPosition().getX());
+		System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
+				 + " lon:" + obstacleList.get(0).getCoordinate().getX()
+				 + " vector: " + obstacleList.get(0).getDirection().getX() + "-" + obstacleList.get(0).getDirection().getY()
+				 + " thetas: " + obstacleList.get(0).theatasToString());
+		it++;
+		
+		RunAlgorithm();
+		
 	}
 
 	@Override
@@ -70,6 +90,7 @@ public class PlaneThread extends Thread{
 	//returns true if the line l intersects the circle made by o1
 	//returns false otherwise
 	//TODO: test this function
+	// TESTED!!!, could use a few more cases tho
 	private boolean StaticCollides(Line l, Obstacle o1) {
 		// Finding the distance of line from center. 
 		double a = l.getStart().getX() - l.getEnd().getX();
@@ -94,6 +115,7 @@ public class PlaneThread extends Thread{
 		//we do dist1 times 3 because an obstacle should move no faster than our plane
 		//so we do not worry about any distance covered after we move past these two points
 		//we multiply by 3 as an added buffer just to be safe
+		//this is not nessessary and shouldn't matter if the program runs in non static mode
 		List<Line> dangerLines = o1.getDangerLines(dist1*3);
 		for(Line l : dangerLines) {
 			if(Line.intersect(w1, l)) {
@@ -107,7 +129,9 @@ public class PlaneThread extends Thread{
 	private List<Coordinate> getXNextObjectiveCoordinates(int x) {
 		List<Coordinate> coors = new ArrayList<Coordinate>();
 		int i = 0;
-		coors.add(plane.getPosition());
+		if(dynamic) {
+			coors.add(plane.getPosition());
+		}
 		for(Waypoint w : waypointList.getWaypointList()) {
 			
 			coors.add(w.getCoordinate());
@@ -128,8 +152,17 @@ public class PlaneThread extends Thread{
 	private int findDangerousObstacle() {
 		int i = 0;
 		for(Obstacle currObstacle : obstacleList) {
-			//get list of Coordinats starting at the planes current location
-			List<Coordinate> coors = getXNextObjectiveCoordinates(LOOKAHEAD_AMOUNT);
+			List<Coordinate> coors;
+			if(this.dynamic) {
+				//get list of Coordinats starting at the planes current location
+				coors = getXNextObjectiveCoordinates(LOOKAHEAD_AMOUNT);
+			}
+			else {
+				coors = new ArrayList<Coordinate>();;
+				for(Waypoint w : this.waypointList.getWaypointList()) {
+					coors.add(w.getCoordinate());
+				}
+			}
 			
 			//calc if the current predictive obstacles vector intersects over each line segment
 			for(int j = 0; j < coors.size()-1; j++) {
@@ -159,6 +192,37 @@ public class PlaneThread extends Thread{
 		if(collisionsIndex != -1) {
 			System.out.println("collision");
 		}
+		collisionsIndex = findDangerousObstacle();
+		while(collisionsIndex != -1) {
+			try {
+				sleep(MILISECONDS_DELAY);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			//set current obstacle trying to avoid
+			Obstacle currObstacle = obstacleList.get(collisionsIndex);
+			
+			//go into the first waypoint that the obstacle collides with
+			for(int j = 0; j < waypointList.getWaypointList().size()-1; j++) {
+				Waypoint a1 = waypointList.getWaypointList().get(j);
+				Waypoint a2 = waypointList.getWaypointList().get(j+1);
+				if(ObstacleCollides(a1.getCoordinate(),a2.getCoordinate(), currObstacle)) {
+					
+					avoidObstacle(j,a1.getCoordinate(),a2.getCoordinate(),currObstacle);
+					break;
+				}
+			}
+			
+			
+			try {
+				sleep(MILISECONDS_DELAY);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			collisionsIndex = findDangerousObstacle();
+		}
 		
 		//step 3: generate prediction equations for dynamic obstacles
 		
@@ -170,6 +234,109 @@ public class PlaneThread extends Thread{
 		
 	}
 	
+	//avoids an obstacle colliding with the path created by the waypoints of coordinates a1 and a2
+	//these avoidance points will be inserted at indexes j and j+1
+	private void avoidObstacle(int j, Coordinate a1, Coordinate a2, Obstacle currObstacle) {
+		System.out.println("trying to avoid");
+		
+		
+		List<Coordinate> intersections = Coordinate.getCircleLineIntersectionPoint(a1,a2,currObstacle.getCoordinate(),currObstacle.getRadius());
+		//if it is a tangent or not actually an intersection then done
+		if(intersections.size() < 2) {
+			return;
+		}
+		//calculate slope and perpendicular slope
+		double slope = Line.slope(a1,a2);
+		double perpSlope;
+		if(slope == Double.MAX_VALUE) {
+			perpSlope = 0;
+		}
+		if(slope == 0) {
+			perpSlope = Double.MAX_VALUE;
+		}
+		perpSlope = -1 * (1 / slope);
+		
+		Coordinate b1 = new Coordinate();
+		Coordinate b2 = new Coordinate();
+		Coordinate c1 = new Coordinate();
+		Coordinate c2 = new Coordinate();
+		
+		double l = currObstacle.getRadius();
+		
+		if(perpSlope == 0) {
+			b1.setX(intersections.get(0).getX() + l);
+			b1.setY(intersections.get(0).getY());
+	  
+			b2.setX(intersections.get(0).getX() - l);
+			b2.setY(intersections.get(0).getY());
+			
+			
+			c1.setX(intersections.get(1).getX() + l);
+			c1.setY(intersections.get(1).getY());
+	  
+			c2.setX(intersections.get(1).getX() - l);
+			c2.setY(intersections.get(1).getY());
+		}
+		
+		// if slope is infinte 
+	    else if (perpSlope == Double.MAX_VALUE) { 
+	    	
+	    	b1.setX(intersections.get(0).getX());
+			b1.setY(intersections.get(0).getY() + l);
+	  
+			b2.setX(intersections.get(0).getX());
+			b2.setY(intersections.get(0).getY() - l);	
+			
+			c1.setX(intersections.get(1).getX());
+			c1.setY(intersections.get(1).getY() + l);
+	  
+			c2.setX(intersections.get(1).getX());
+			c2.setY(intersections.get(1).getY() - l);	
+	    } 
+		
+	    else {
+	    	double dx = (l / Math.sqrt(1 + (perpSlope * perpSlope)) ); 
+	        double dy = perpSlope * dx; 
+	        
+	        b1.setX(intersections.get(0).getX() + dx);
+			b1.setY(intersections.get(0).getY() + dy);
+	  
+			b2.setX(intersections.get(0).getX() - dx);
+			b2.setY(intersections.get(0).getY() - dy);
+			
+			
+			c1.setX(intersections.get(1).getX() + dx);
+			c1.setY(intersections.get(1).getY() + dy);
+	  
+			c2.setX(intersections.get(1).getX() - dx);
+			c2.setY(intersections.get(1).getY() - dy);
+	    }
+		//pairs are then pair 1(b1, c1) and pair 2(b2, c2)
+		//calculate pair distances from center
+		double distanceb1 = new Line(b1,currObstacle.getCoordinate()).getLength();
+		double distanceb2 = new Line(b2,currObstacle.getCoordinate()).getLength();
+		double distancec1 = new Line(c1,currObstacle.getCoordinate()).getLength();
+		double distancec2 = new Line(c2,currObstacle.getCoordinate()).getLength();
+		
+		Waypoint w1;
+		Waypoint w2;
+		
+		if(distanceb1 + distancec1 >= distanceb2 + distancec2) {
+			w1 = new Waypoint(b1,false);
+			w2 = new Waypoint(c1,false);
+		}
+		else {
+			w1 = new Waypoint(b2,false);
+			w2 = new Waypoint(c2,false);
+		}
+		
+		waypointList.getWaypointList().add(j+1,w1);
+		waypointList.getWaypointList().add(j+2,w2);
+		
+		
+		
+	}
+
 	//removes the soonest waypoint if the planes current position is a "hit"
 	//TODO: implement me
 	public void updateWaypoints() {
@@ -185,8 +352,7 @@ public class PlaneThread extends Thread{
 			e.printStackTrace();
 		}
 		sc.nextLine();
-		
-		String currLine = sc.nextLine();
+		sc.nextLine();
 		
 		Coordinate newCoordinate = new Coordinate();
 		
@@ -266,10 +432,6 @@ public class PlaneThread extends Thread{
 						//set the new direction
 						newObstacle.setDirection(newVector);
 						//update the change in angle
-						if(newObstacle.getCoordinate().getX() == 150) {
-							int a = 0;
-							a = 1;
-						}
 						newObstacle.setThetas(obstacleList.get(listIndex).getThetas());
 						Double newTheta = obstacleList.get(listIndex).getDirection()
 						.angleBetween(newObstacle.getDirection());
