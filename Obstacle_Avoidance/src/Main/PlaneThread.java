@@ -194,11 +194,7 @@ public class PlaneThread extends Thread{
 		}
 		collisionsIndex = findDangerousObstacle();
 		while(collisionsIndex != -1) {
-			try {
-				sleep(MILISECONDS_DELAY);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
 			//set current obstacle trying to avoid
 			Obstacle currObstacle = obstacleList.get(collisionsIndex);
 			
@@ -213,13 +209,6 @@ public class PlaneThread extends Thread{
 				}
 			}
 			
-			
-			try {
-				sleep(MILISECONDS_DELAY);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			collisionsIndex = findDangerousObstacle();
 		}
