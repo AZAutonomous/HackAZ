@@ -190,7 +190,7 @@ public class PlaneThread extends Thread{
 		
 		//step 2: if collision create anchor points
 		if(collisionsIndex != -1) {
-			System.out.println("collision");
+			System.out.println("collisions detected...");
 		}
 		collisionsIndex = findDangerousObstacle();
 		while(collisionsIndex != -1) {
