@@ -231,13 +231,13 @@ public class PlaneThread extends Thread{
 		//step 5: evaluate risk of each avoidance paths
 		
 		//step 6: select dodge points
-		
+		System.out.println("done.");
 	}
 	
 	//avoids an obstacle colliding with the path created by the waypoints of coordinates a1 and a2
 	//these avoidance points will be inserted at indexes j and j+1
 	private void avoidObstacle(int j, Coordinate a1, Coordinate a2, Obstacle currObstacle) {
-		System.out.println("trying to avoid");
+		System.out.println("collision detected at " + j +  " : avoiding...");
 		
 		
 		List<Coordinate> intersections = Coordinate.getCircleLineIntersectionPoint(a1,a2,currObstacle.getCoordinate(),currObstacle.getRadius());
