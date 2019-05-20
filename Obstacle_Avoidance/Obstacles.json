@@ -1,8 +1,8 @@
 {
     "obstacles": [
         {
-            "lat": 76,
-            "long": 100,
+            "lat": 50,
+            "long": 200,
             "radius": 10
         },
         {

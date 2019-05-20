@@ -91,6 +91,34 @@ public class Coordinate {
         }
         Coordinate p2 = new Coordinate(pointA.x - baX * abScalingFactor2, pointA.y
                 - baY * abScalingFactor2);
+        
+        //then the line ends inside the circle so ...
+        if(Line.distanceBetween(pointA,center) < radius) {
+        	//only return one intersection point
+        	if(Line.distanceBetween(pointB,p1) > Line.distanceBetween(pointB,p2)) {
+        		return Arrays.asList(p2);
+        	}
+        	else {
+        		return Arrays.asList(p1);
+        	}	
+        }
+        if(Line.distanceBetween(pointB,center) < radius) {
+        	//only return one intersection point
+        	if(Line.distanceBetween(pointA,p1) > Line.distanceBetween(pointA,p2)) {
+        		return Arrays.asList(p2);
+        	}
+        	else {
+        		return Arrays.asList(p1);
+        	}	
+        }
+        //if one point is tanget then we are fine
+        if((Line.distanceBetween(pointA,center) == radius)) {
+        	return Collections.emptyList();
+        }
+        if((Line.distanceBetween(pointB,center) == radius)) {
+        	return Collections.emptyList();
+        }
+        
         return Arrays.asList(p1, p2);
     }
 }

@@ -92,13 +92,13 @@ public class PlaneThread extends Thread{
 	//TODO: test this function
 	// TESTED!!!, could use a few more cases tho
 	private boolean StaticCollides(Line l, Obstacle o1) {
-		// Finding the distance of line from center. 
-		double a = l.getStart().getX() - l.getEnd().getX();
-		double b = l.getStart().getY() - l.getEnd().getY();
-		double x = Math.sqrt(a*a + b*b);
-       
-		return (Math.abs((o1.getCoordinate().getY() - l.getStart().getY()) * (l.getEnd().getX() - l.getStart().getX()) - 
-		           (o1.getCoordinate().getX() -  l.getStart().getX()) * (l.getEnd().getY() - l.getStart().getY())) / x <= o1.getRadius());
+		List<Coordinate> intersections = Coordinate.getCircleLineIntersectionPoint(l.getStart(),l.getEnd(),o1.getCoordinate(),o1.getRadius());
+		if(intersections.size() == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 		
 	}
 	
@@ -223,6 +223,11 @@ public class PlaneThread extends Thread{
 		System.out.println("done.");
 	}
 	
+	private void avoidInside(int j) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	//avoids an obstacle colliding with the path created by the waypoints of coordinates a1 and a2
 	//these avoidance points will be inserted at indexes j and j+1
 	private void avoidObstacle(int j, Coordinate a1, Coordinate a2, Obstacle currObstacle) {
@@ -230,6 +235,11 @@ public class PlaneThread extends Thread{
 		
 		
 		List<Coordinate> intersections = Coordinate.getCircleLineIntersectionPoint(a1,a2,currObstacle.getCoordinate(),currObstacle.getRadius());
+		//if size == 1 then the segment ends in the obstacle so run a different avoidance method
+		if(intersections.size() == 1) {
+			avoidInside(j);
+			return;
+		}
 		//if it is a tangent or not actually an intersection then done
 		if(intersections.size() < 2) {
 			return;
