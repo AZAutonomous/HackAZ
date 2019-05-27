@@ -158,7 +158,7 @@ public class PlaneThread extends Thread{
 				coors = getXNextObjectiveCoordinates(LOOKAHEAD_AMOUNT);
 			}
 			else {
-				coors = new ArrayList<Coordinate>();;
+				coors = new ArrayList<Coordinate>();
 				for(Waypoint w : this.waypointList.getWaypointList()) {
 					coors.add(w.getCoordinate());
 				}

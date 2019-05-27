@@ -1,5 +1,7 @@
 package Geometry;
 
+import java.math.BigDecimal;
+
 public class Line {
 	private Coordinate a, b;
 	private double length;
@@ -26,6 +28,37 @@ public class Line {
 	public static double distanceBetween(Coordinate a, Coordinate b) {
 		return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
 	}
+	public static BigDecimal distanceBetweenBD(Coordinate a, Coordinate b) {
+		
+		BigDecimal ax = new BigDecimal(a.getX());
+		BigDecimal bx = new BigDecimal(b.getX());
+		BigDecimal ay = new BigDecimal(a.getY());
+		BigDecimal by = new BigDecimal(b.getY());
+		
+		if(ax.equals(bx) && ay.equals(by)) {
+			return new BigDecimal(0);
+		}
+		
+		BigDecimal retval = sqrt2((ax.subtract(bx)).pow(2).add(ay.subtract(by).pow(2)),2);
+		BigDecimal check = new BigDecimal(Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)));
+		
+		
+		return retval;
+	}
+	
+	public static BigDecimal sqrt2(BigDecimal A, final int SCALE) {
+	    BigDecimal x0 = new BigDecimal("0");
+	    BigDecimal x1 = new BigDecimal(Math.sqrt(A.doubleValue()));
+	    while (!x0.equals(x1)) {
+	        x0 = x1;
+	        x1 = A.divide(x0, SCALE, BigDecimal.ROUND_HALF_UP);
+	        x1 = x1.add(x0);
+	        x1 = x1.divide(BigDecimal.valueOf(2), SCALE, BigDecimal.ROUND_HALF_UP);
+
+	    }
+	    return x1;
+	}
+	
 	
 	public static double slope(Coordinate a, Coordinate b) {
 		double retval = 0;

@@ -1,6 +1,7 @@
 package Geometry;
 
 import java.util.Arrays;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,11 +64,11 @@ public class Coordinate {
 	
 	public static List<Coordinate> getCircleLineIntersectionPoint(Coordinate pointA,
 			Coordinate pointB, Coordinate center, double radius) {
-        double baX = pointB.x - pointA.x;
+		
+		double baX = pointB.x - pointA.x;
         double baY = pointB.y - pointA.y;
         double caX = center.x - pointA.x;
         double caY = center.y - pointA.y;
-
         double a = baX * baX + baY * baY;
         double bBy2 = baX * caX + baY * caY;
         double c = caX * caX + caY * caY - radius * radius;
@@ -91,7 +92,6 @@ public class Coordinate {
         }
         Coordinate p2 = new Coordinate(pointA.x - baX * abScalingFactor2, pointA.y
                 - baY * abScalingFactor2);
-        
         //then the line ends inside the circle so ...
         if(Line.distanceBetween(pointA,center) < radius) {
         	//only return one intersection point
@@ -111,7 +111,24 @@ public class Coordinate {
         		return Arrays.asList(p1);
         	}	
         }
-        //if one point is tanget then we are fine
+        //check for line approaching circle-------------------------------------------------------
+        double  AtoP1 = Line.distanceBetween(pointA,p1);
+        double AtoP2 = Line.distanceBetween(pointA,p2);
+        double Adist = Math.min(AtoP1,AtoP2);
+        double BtoP1 = Line.distanceBetween(pointB,p1);
+        double BtoP2 = Line.distanceBetween(pointB,p2);
+        double Bdist = Math.min(BtoP1,BtoP2);
+        double newPathDist = Line.distanceBetween(p1,p2) + Adist + Bdist;
+        double originalDist = Line.distanceBetween(pointA, pointB);
+        //if the path made by the two points and the interesction points does not form a line
+        if(newPathDist != originalDist) {
+        	//then the path does not intersect
+        	return Collections.emptyList();
+        	
+        }
+        
+        
+        //if one point is tanget then we are fine---------------------------------------------------
         if((Line.distanceBetween(pointA,center) == radius)) {
         	return Collections.emptyList();
         }
