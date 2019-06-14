@@ -47,6 +47,7 @@ public class PlaneThread extends Thread{
 		updateObstacleList();
 			
 		//print stuff (for debugging)
+		//this is just a sanity check
 		System.out.println(it + "  plane lat:" + plane.getPosition().getY() 
 							  + "  lon:" + plane.getPosition().getX());
 		System.out.println(it + "  obst 1: lat:" + obstacleList.get(0).getCoordinate().getY() 
@@ -54,7 +55,7 @@ public class PlaneThread extends Thread{
 				 + " vector: " + obstacleList.get(0).getDirection().getX() + "-" + obstacleList.get(0).getDirection().getY()
 				 + " thetas: " + obstacleList.get(0).theatasToString());
 		it++;
-		
+		//real algroithm starts here!
 		RunAlgorithm();
 		
 	}
@@ -188,7 +189,7 @@ public class PlaneThread extends Thread{
 		//step 1: check for collision
 		int collisionsIndex = findDangerousObstacle();
 		
-		//step 2: if collision create anchor points
+		//step 2: if collision
 		if(collisionsIndex != -1) {
 			System.out.println("collisions detected...");
 		}
