@@ -16,6 +16,8 @@ import Geometry.Vector;
 
 public class PlaneThread extends Thread{
 	
+	//the amount of time to sleep between each ping between continuous processing
+	//(not used in NonDynamic mode)
 	public final static int MILISECONDS_DELAY = 1000;
 	//the amount of objective waypoint to look ahead when calc collisions
 	public final static int LOOKAHEAD_AMOUNT = 2;
@@ -55,7 +57,8 @@ public class PlaneThread extends Thread{
 				 + " thetas: " + obstacleList.get(0).theatasToString());
 		it++;
 		
-		RunAlgorithm();
+		//RunAlgorithm();
+		new Algorithm().RunAlgorithm(obstacleList,waypointList,dynamic,plane);
 		
 	}
 
@@ -196,15 +199,15 @@ public class PlaneThread extends Thread{
 		while(collisionsIndex != -1) {
 			
 			//set current obstacle trying to avoid
-			Obstacle currObstacle = obstacleList.get(collisionsIndex);
+			Obstacle dangerousObstacle = obstacleList.get(collisionsIndex);
 			
 			//go into the first waypoint that the obstacle collides with
 			for(int j = 0; j < waypointList.getWaypointList().size()-1; j++) {
 				Waypoint a1 = waypointList.getWaypointList().get(j);
 				Waypoint a2 = waypointList.getWaypointList().get(j+1);
-				if(ObstacleCollides(a1.getCoordinate(),a2.getCoordinate(), currObstacle)) {
+				if(ObstacleCollides(a1.getCoordinate(),a2.getCoordinate(), dangerousObstacle)) {
 					
-					avoidObstacle(j,a1.getCoordinate(),a2.getCoordinate(),currObstacle);
+					avoidObstacle(j,a1.getCoordinate(),a2.getCoordinate(),dangerousObstacle);
 					break;
 				}
 			}

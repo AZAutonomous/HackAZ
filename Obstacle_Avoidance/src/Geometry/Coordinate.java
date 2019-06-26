@@ -60,7 +60,17 @@ public class Coordinate {
 		return this.y;
 	}
 	
-	
+	/*
+	 * calculates any point at which a line segment intersects a given circle
+	 * PARAMS:
+	 * pointA: the first point of the given line segment
+	 * pointB: the second point of the given line segment
+	 * center: the center point of the given circle
+	 * radisu: the radius of the circle
+	 * 
+	 * Returns: a List of Coordinates denoting the intersection points 
+	 * (size of this list should range between 0 - 2 inclusive)
+	 */
 	public static List<Coordinate> getCircleLineIntersectionPoint(Coordinate pointA,
 			Coordinate pointB, Coordinate center, double radius) {
         double baX = pointB.x - pointA.x;
