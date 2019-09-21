@@ -17,7 +17,7 @@ public class Algorithm {
 	public final static int MILISECONDS_DELAY = 1000;
 	//the amount of objective waypoint to look ahead when calc collisions
 	public final static int LOOKAHEAD_AMOUNT = 2;
-	//the radius for wich a "hit" can be counted in feet
+	//the radius for which a "hit" can be counted in feet
 	public final static double PLANE_HIT_RADIUS = 100;
 	
 	//Private variables used by the algorithm
