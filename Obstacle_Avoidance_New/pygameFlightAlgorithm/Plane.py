@@ -35,3 +35,6 @@ class Plane:
 
     def getVelocityRT(self):
         return self.velocityRT
+
+    def getBoundaries(self):
+        return self.rect.left, self.rect.top, self.rect.right, self.rect.bottom
