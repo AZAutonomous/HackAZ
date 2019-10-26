@@ -6,13 +6,13 @@ from Obstacle import Obstacle
 from Plane import Plane
 
 colorDict = {"left": (125, 255, 0), "right": (125, 125, 125), "top": (255, 255, 50), "bottom": (200, 50, 200),
-             "none": (255, 0, 0)}
+             "none": (255, 0, 0), "Red": (255, 0, 0), "Yellow": (255, 255, 50), "Green": (0, 255, 0), "Null": (0,0,0)}
 
 
 def createUnitVector(first, second):
     vector = numpy.subtract(first, second)
     magnitude = math.sqrt(vector[0] * vector[0] + vector[1] * vector[1])
-    if math.fabs(magnitude) < .1:
+    if math.fabs(magnitude) < .001:
         return [0, 0]
     vector[0] = vector[0] / magnitude
     vector[1] = vector[1] / magnitude
@@ -58,6 +58,38 @@ def intersect(plane: Plane, obstacle: Obstacle):
     return "none"
 
 
+def magnitude(array):
+    sumSquare = 0
+    for num in array:
+        sumSquare += num*num
+    return math.sqrt(sumSquare)
+
+
+def normTolIntersect(plane: Plane, obstacle: Obstacle, tolerance):
+    planeVel = plane.getVelocityRT()
+    obstacleCenter = obstacle.getCenter()
+    planeCenter = plane.getRect().center
+    distTranslation = numpy.subtract(obstacleCenter, planeCenter)
+    distPolar = magnitude(distTranslation), math.atan2(distTranslation[1], distTranslation[0])
+    pole = distPolar[0]*math.cos(distPolar[1] - planeVel[1])
+    minDistance = math.sqrt(math.pow(distPolar[0], 2) - math.pow(pole, 2))
+    clearance = magnitude(plane.getRect().size)/math.sqrt(2) + magnitude([obstacle.xSize, obstacle.ySize])/math.sqrt(2)
+    if pole < 0:
+        return None
+    if minDistance <= clearance:
+        return "Red", pole * math.cos(planeVel[1]) + planeCenter[0], pole * math.sin(planeVel[1]) + planeCenter[1]
+    elif minDistance <= clearance + tolerance:
+        return "Yellow", pole * math.cos(planeVel[1]) + planeCenter[0], pole * math.sin(planeVel[1]) + planeCenter[1]
+    else:
+        return "Green", pole * math.cos(planeVel[1]) + planeCenter[0], pole * math.sin(planeVel[1]) + planeCenter[1]
+
+
+def newWaypoint(plane: Plane, obstacleToAvoid: Obstacle, obstacleList, tolerance):
+    planeDir = plane.getVelocityRT()
+    perpLine = planeDir[1] + math.pi/2
+
+
+
 def main():
     pygame.init()
 
@@ -71,14 +103,14 @@ def main():
     pause = False
     # controlRect
     # start Position
-    x = 970.0
-    y = 470.0
+    x = 0.0
+    y = 0.0
     # plane size
     xSize = 60.0
     ySize = 60.0
     # framerate limiter
     clock = pygame.time.Clock()
-
+    tolerance = math.sqrt(xSize * xSize + ySize * ySize)
     # initialize plane
     plane1 = Plane((0, 128, 255), pygame.Rect(x, y, xSize, ySize))
     speed = 6
@@ -113,7 +145,12 @@ def main():
         # detection algorithm
         for obstacle in listObstacle:
             out = intersect(plane1, obstacle)
+            #if out != "none":
             obstacle.setColor(colorDict[out])
+
+
+
+
         if not pause:
             # movement algorithm
             if len(listWaypoints) > 0:
@@ -128,13 +165,17 @@ def main():
         screen.fill((0, 0, 0))
 
         pygame.draw.rect(screen, plane1.getColor(), plane1.getRect())
-
+        pygame.draw.line(screen, (255, 0 ,0), plane1.getRect().center, numpy.add(plane1.getRect().center, (1000*plane1.getVelocity()[0],plane1.getVelocity()[1]*1000)))
         for element in listWaypoints:
             pygame.draw.rect(screen, (128, 128, 128),
                              pygame.Rect(element.xCoordinate, element.yCoordinate, 10, 10))
 
         for element in listObstacle:
             pygame.draw.rect(screen, element.getColor(), pygame.Rect(element.attributes()))
+            norm = normTolIntersect(plane1, obstacle, tolerance)
+            if norm is not None:
+                pygame.draw.line(screen, colorDict[norm[0]], (norm[1], norm[2]), obstacle.getCenter())
+                pygame.draw.line(screen, colorDict[norm[0]], (norm[1], norm[2]), plane1.getRect().center)
 
         if len(listWaypoints) > 0:
             pygame.draw.line(screen, (0, 255, 0), plane1.getRect().bottomleft,
@@ -145,6 +186,8 @@ def main():
                              numpy.add(listWaypoints[0].getCoordinate(), [5, 5]))
             pygame.draw.line(screen, (0, 255, 0), plane1.getRect().topright,
                              numpy.add(listWaypoints[0].getCoordinate(), [5, 5]))
+
+
         # refresh screen
         pygame.display.flip()
 

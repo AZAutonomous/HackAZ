@@ -18,3 +18,6 @@ class Obstacle:
 
     def setColor(self, color):
         self.color = color
+
+    def getCenter(self):
+        return self.xCoordinate + self.xSize/2, self.yCoordinate + self.ySize/2
