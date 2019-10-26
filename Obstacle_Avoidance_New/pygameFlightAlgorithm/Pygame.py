@@ -172,9 +172,9 @@ def main():
 
         for element in listObstacle:
             pygame.draw.rect(screen, element.getColor(), pygame.Rect(element.attributes()))
-            norm = normTolIntersect(plane1, obstacle, tolerance)
+            norm = normTolIntersect(plane1, element, tolerance)
             if norm is not None:
-                pygame.draw.line(screen, colorDict[norm[0]], (norm[1], norm[2]), obstacle.getCenter())
+                pygame.draw.line(screen, colorDict[norm[0]], (norm[1], norm[2]), element.getCenter())
                 pygame.draw.line(screen, colorDict[norm[0]], (norm[1], norm[2]), plane1.getRect().center)
 
         if len(listWaypoints) > 0:
