@@ -28,12 +28,15 @@ DetectionIntersect DetectionAlgorithim(Plane p, Obstacle o)
 	vector<double> planeVel = p.getVelocityRT();
 	vector<double> obstacleCenter = o.getCenter();
 	vector<double> planeCenter = p.getCoordinates();
-
+	//translates plane to orgin and Obstacle relative to Plane
 	double translation[2] = { obstacleCenter[0] - planeCenter[0], obstacleCenter[1] - planeCenter[1] };
+	//convert Obstacle to polar
 	double polar[2] = { magnitude(translation,2), atan2(translation[1],translation[0]) };
-
+	//dot projection of Obstacle line onto Plane Velocity
 	intersect.pole = polar[0] * cos(polar[1] - planeVel[1]);
+	//calculates orthogonal distance from plane velocity
 	intersect.clearance = sqrt(pow(polar[0], 2) - pow(intersect.pole, 2));
+	//store plane velocity angle
 	intersect.angle = planeVel[1];
 
 	return intersect;
